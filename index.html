@@ -1,1 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4FiMD Pre-Qualification</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <div id="prequal-app">
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside id="sidebar">
+      <nav id="section-nav">
+        <div class="section-item active" data-section="loan">Loan Information</div>
+        <div class="section-item" data-section="financial">Financial Information</div>
+        <div class="section-item" data-section="employment">Employment Information</div>
+        <div class="section-item" data-section="practice">Practice Information</div>
+        <div class="section-item" data-section="personal">Personal Information</div>
+      </nav>
+
+      <div id="application-summary">
+        <h3>Application Summary</h3>
+
+        <div class="summary-field">
+          <label>Loan Amount</label>
+          <div id="summary-loan-amount">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Loan Purpose</label>
+          <div id="summary-loan-purpose">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Credit Score</label>
+          <div id="summary-credit-score">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Estimated Monthly Income</label>
+          <div id="summary-income">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Estimated Monthly Debt</label>
+          <div id="summary-debt">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Employment Type</label>
+          <div id="summary-employment">—</div>
+        </div>
+
+        <div class="summary-field">
+          <label>Insurance Coverage</label>
+          <div id="summary-insurance">—</div>
+        </div>
+      </div>
+
+      <div id="progress-dial-wrapper">
+        <svg id="progress-dial" viewBox="0 0 120 120">
+          <circle class="dial-bg" cx="60" cy="60" r="54" />
+          <circle class="dial-progress" cx="60" cy="60" r="54" />
+        </svg>
+        <div id="progress-label">0% Complete</div>
+      </div>
+    </aside>
+
+    <!-- ========== FORM AREA ========== -->
+    <main id="form-panel">
+
+      <!-- SECTION: LOAN INFORMATION -->
+
+      <!-- STEP 1: Loan Amount -->
+      <section class="step active" id="step-loan-amount" data-section="loan">
+        <h1>Requested Loan Amount</h1>
+        <p class="step-intro">Tell us how much you’d like to finance.</p>
+
+        <div class="input-block">
+          <label for="loan-amount-input">Requested Loan Amount</label>
+          <div class="currency-input">
+            <span class="currency-prefix">$</span>
+            <input id="loan-amount-input" type="text" inputmode="numeric" autocomplete="off" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-primary btn-next" data-next="step-loan-purpose">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 2: Loan Purpose -->
+      <section class="step" id="step-loan-purpose" data-section="loan">
+        <h1>What’s the purpose of the loan?</h1>
+
+        <div class="input-block">
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Debt Refinance/Consolidation" /><span>Debt Refinance/Consolidation</span></label>
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Equipment Purchase" /><span>Equipment Purchase</span></label>
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Practice Acquisition/Expansion" /><span>Practice Acquisition/Expansion</span></label>
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Start-up Practice" /><span>Start-up Practice</span></label>
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Working Capital" /><span>Working Capital</span></label>
+            <label class="radio-option"><input type="radio" name="loan-purpose" value="Other" /><span>Other</span></label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-loan-amount">Back</button>
+          <button class="btn-primary btn-next" data-next="step-credit-score">Continue</button>
+        </div>
+      </section>
+
+      <!-- SECTION: FINANCIAL INFORMATION -->
+
+      <!-- STEP 3: Credit Score -->
+      <section class="step" id="step-credit-score" data-section="financial">
+        <h1>What’s your estimated credit score?</h1>
+
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="credit-score" value="720–850" /><span>720–850</span></label>
+          <label class="radio-option"><input type="radio" name="credit-score" value="680–719" /><span>680–719</span></label>
+          <label class="radio-option"><input type="radio" name="credit-score" value="640–679" /><span>640–679</span></label>
+          <label class="radio-option"><input type="radio" name="credit-score" value="0–639" /><span>0–639</span></label>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-loan-purpose">Back</button>
+          <button class="btn-primary btn-next" data-next="step-income">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 4: Income -->
+      <section class="step" id="step-income" data-section="financial">
+        <h1>Your estimated monthly income</h1>
+
+        <div class="input-block">
+          <div class="slider-row">
+            <div class="slider-value" id="income-display">$0</div>
+            <input type="range" id="income-input" min="0" max="100000" step="500" />
+          </div>
+          <div class="slider-range-label">$0 – $100K+</div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-credit-score">Back</button>
+          <button class="btn-primary btn-next" data-next="step-debt">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 5: Debt -->
+      <section class="step" id="step-debt" data-section="financial">
+        <h1>Your estimated monthly debt payments</h1>
+
+        <div class="slider-row">
+          <div class="slider-value" id="debt-display">$0</div>
+          <input type="range" id="debt-input" min="0" max="50000" step="250" />
+        </div>
+        <div class="slider-range-label">$0 – $50K+</div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-income">Back</button>
+          <button class="btn-primary btn-next" data-next="step-employment-structure">Continue</button>
+        </div>
+      </section>
+
+      <!-- SECTION: EMPLOYMENT INFORMATION -->
+
+      <!-- STEP 6: Employment Structure -->
+      <section class="step" id="step-employment-structure" data-section="employment">
+        <h1>Tell us about your employment structure.</h1>
+
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="employment-structure" value="I am employed by a practice or system" /><span>I am employed by a practice or system</span></label>
+          <label class="radio-option"><input type="radio" name="employment-structure" value="I am an owner or partner in a practice" /><span>I am an owner or partner in a practice</span></label>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-debt">Back</button>
+          <button class="btn-primary btn-next" data-next="step-compensation">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 7: Compensation -->
+      <section class="step" id="step-compensation" data-section="employment">
+        <h1>Your compensation details</h1>
+
+        <div class="input-block">
+          <label>Tell us about your payment structure.</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="payment-structure" value="W2" /><span>W2</span></label>
+            <label class="radio-option"><input type="radio" name="payment-structure" value="1099" /><span>1099</span></label>
+            <label class="radio-option"><input type="radio" name="payment-structure" value="Both" /><span>Both</span></label>
+          </div>
+        </div>
+
+        <div class="input-block">
+          <label>How long have you been paid like this?</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="payment-duration" value="Less than one year" /><span>Less than one year</span></label>
+            <label class="radio-option"><input type="radio" name="payment-duration" value="More than one year" /><span>More than one year</span></label>
+            <label class="radio-option"><input type="radio" name="payment-duration" value="More than two years" /><span>More than two years</span></label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-employment-structure">Back</button>
+          <button class="btn-primary btn-next" data-next="step-employer">Continue</button>
+        </div>
+      </section>
+
+      <!-- SECTION: PRACTICE INFORMATION -->
+
+      <!-- STEP 8: Employer -->
+      <section class="step" id="step-employer" data-section="practice">
+        <h1>Tell us about your employer.</h1>
+
+        <div class="input-block">
+          <label for="employer-name-input">What’s your employer’s name?</label>
+          <input id="employer-name-input" type="text" />
+        </div>
+
+        <div class="input-block">
+          <label>What best describes your employer?</label>
+          <div class="radio-group">
+            <label class="radio-option"><input type="radio" name="employer-type" value="For-profit" /><span>For-profit</span></label>
+            <label class="radio-option"><input type="radio" name="employer-type" value="Non-profit" /><span>Non-profit</span></label>
+            <label class="radio-option"><input type="radio" name="employer-type" value="Public" /><span>Public</span></label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-compensation">Back</button>
+          <button class="btn-primary btn-next" data-next="step-insurance">Continue</button>
+        </div>
+      </section>
+
+      <!-- SECTION: PERSONAL INFORMATION -->
+
+      <!-- STEP 9: Insurance -->
+      <section class="step" id="step-insurance" data-section="personal">
+        <h1>Your insurance coverage</h1>
+
+        <div class="checkbox-group" id="insurance-group">
+          <label class="checkbox-option"><input type="checkbox" name="insurance" value="Life" /><span>Life</span></label>
+          <label class="checkbox-option"><input type="checkbox" name="insurance" value="Disability" /><span>Disability</span></label>
+          <label class="checkbox-option"><input type="checkbox" name="insurance" value="Malpractice" /><span>Malpractice</span></label>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-employer">Back</button>
+          <button class="btn-primary btn-next" data-next="step-personal">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 10: Personal Info -->
+      <section class="step" id="step-personal" data-section="personal">
+        <h1>Your personal information</h1>
+
+        <div class="input-grid two-col">
+          <div class="input-block">
+            <label for="first-name-input">First Name</label>
+            <input id="first-name-input" type="text" />
+          </div>
+          <div class="input-block">
+            <label for="last-name-input">Last Name</label>
+            <input id="last-name-input" type="text" />
+          </div>
+        </div>
+
+        <div class="input-grid two-col">
+          <div class="input-block">
+            <label for="npi-input">NPI Number</label>
+            <input id="npi-input" type="text" />
+          </div>
+          <div class="input-block">
+            <label for="specialty-input">Medical Specialty</label>
+            <input id="specialty-input" type="text" />
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-insurance">Back</button>
+          <button class="btn-primary btn-next" data-next="step-contact">Continue</button>
+        </div>
+      </section>
+
+      <!-- STEP 11: Contact Info -->
+      <section class="step" id="step-contact" data-section="personal">
+        <h1>How can we contact you?</h1>
+
+        <div class="input-grid two-col">
+          <div class="input-block">
+            <label for="email-input">Email</label>
+            <input id="email-input" type="email" />
+          </div>
+
+          <div class="input-block">
+            <label for="phone-input">Phone Number</label>
+            <input id="phone-input" type="tel" />
+          </div>
+        </div>
+
+        <label class="checkbox-option consent-option">
+          <input type="checkbox" id="consent-input" />
+          <span>I agree to be contacted by email, text, or phone.</span>
+        </label>
+
+        <div class="step-actions">
+          <button class="btn-secondary btn-prev" data-prev="step-personal">Back</button>
+          <button class="btn-primary btn-next" data-next="complete">See My Payment Estimate</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/pre-qual.js"></script>
+</body>
+</html>
 
