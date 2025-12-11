@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* ==========================
-     STEP MANAGEMENT
-  ========================== */
   const steps = Array.from(document.querySelectorAll(".step"));
   let currentIndex = 0;
 
+  /* ==========================
+     Helpers
+  ========================== */
   const formatter = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
   function formatCurrency(value) {
@@ -13,23 +12,33 @@ document.addEventListener("DOMContentLoaded", () => {
     return "$" + formatter.format(num);
   }
 
+  function setSummary(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value || "—";
+  }
+
+  /* ==========================
+     Navigation
+  ========================== */
   function goToStep(id) {
     const target = document.getElementById(id);
     if (!target) return;
 
-    steps.forEach(step => step.classList.remove("active"));
+    steps.forEach((step) => step.classList.remove("active"));
     target.classList.add("active");
 
     currentIndex = steps.indexOf(target);
-
     updateSidebar();
     updateProgress();
   }
 
-  document.querySelectorAll(".btn-next").forEach(btn => {
+  document.querySelectorAll(".btn-next").forEach((btn) => {
     btn.addEventListener("click", () => {
       const next = btn.dataset.next;
+      if (!next) return;
+
       if (next === "complete") {
+        // placeholder – Salesforce integration / redirect
         window.location.href = "complete/index.html";
         return;
       }
@@ -37,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.querySelectorAll(".btn-prev").forEach(btn => {
+  document.querySelectorAll(".btn-prev").forEach((btn) => {
     btn.addEventListener("click", () => {
       const prev = btn.dataset.prev;
       if (prev) goToStep(prev);
@@ -45,18 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ==========================
-     SIDEBAR HIGHLIGHTING
+     Sidebar highlighting
   ========================== */
   function updateSidebar() {
     const activeSection = steps[currentIndex].dataset.section;
-
-    document.querySelectorAll(".section-item").forEach(item => {
-      item.classList.toggle("active", item.dataset.section === activeSection);
+    document.querySelectorAll(".section-pill").forEach((pill) => {
+      pill.classList.toggle("active", pill.dataset.section === activeSection);
     });
   }
 
   /* ==========================
-     PROGRESS DIAL
+     Progress Dial
   ========================== */
   const totalSteps = steps.length;
   const dial = document.querySelector(".dial-progress");
@@ -66,70 +74,66 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateProgress() {
     const pct = Math.round(((currentIndex + 1) / totalSteps) * 100);
     const offset = circumference - (pct / 100) * circumference;
-
     dial.style.strokeDashoffset = offset;
-    label.textContent = `${pct}% Complete`;
+    label.textContent = `${pct}%`;
   }
 
   updateProgress();
 
   /* ==========================
-     SUMMARY UPDATES
+     Prefill Loan Amount from ?amount=
   ========================== */
-  function setSummary(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value || "—";
-  }
+  const loanInput = document.getElementById("loan-amount-input");
+  const params = new URLSearchParams(window.location.search);
+  const amountParam = params.get("amount");
 
-  function mapRadioGroup(name, summaryId) {
-    const radios = document.querySelectorAll(`input[name="${name}"]`);
-    radios.forEach(r => {
-      r.addEventListener("change", () => {
-        const chosen = Array.from(radios).find(x => x.checked);
-        setSummary(summaryId, chosen ? chosen.value : "—");
-      });
-    });
-  }
+  if (loanInput) {
+    if (amountParam) {
+      const clean = amountParam.replace(/[^\d]/g, "");
+      loanInput.value = formatter.format(clean);
+      setSummary("summary-loan-amount", formatCurrency(clean));
+    }
 
-  /* Map radios */
-  mapRadioGroup("loan-purpose", "summary-loan-purpose");
-  mapRadioGroup("credit-score", "summary-credit-score");
-  mapRadioGroup("employment-structure", "summary-employment");
-
-  /* ==========================
-     LOAN AMOUNT (URL Prefill)
-  ========================== */
-  const loanAmountInput = document.getElementById("loan-amount-input");
-  const amountParam = new URLSearchParams(window.location.search).get("amount");
-
-  if (amountParam && loanAmountInput) {
-    const clean = amountParam.replace(/[^\d]/g, "");
-    loanAmountInput.value = formatter.format(clean);
-    setSummary("summary-loan-amount", formatCurrency(clean));
-  }
-
-  if (loanAmountInput) {
-    loanAmountInput.addEventListener("input", () => {
-      let raw = loanAmountInput.value.replace(/[^\d]/g, "");
+    loanInput.addEventListener("input", () => {
+      let raw = loanInput.value.replace(/[^\d]/g, "");
       if (!raw) {
-        loanAmountInput.value = "";
+        loanInput.value = "";
         setSummary("summary-loan-amount", "—");
         return;
       }
-      loanAmountInput.value = formatter.format(raw);
+      loanInput.value = formatter.format(raw);
       setSummary("summary-loan-amount", formatCurrency(raw));
     });
   }
 
   /* ==========================
-     SLIDERS (Income & Debt)
+     Map radio groups to summary
+  ========================== */
+  function mapRadioGroup(name, summaryId) {
+    const radios = document.querySelectorAll(`input[name="${name}"]`);
+    if (!radios.length) return;
+
+    radios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        const selected = Array.from(radios).find((r) => r.checked);
+        setSummary(summaryId, selected ? selected.value : "—");
+      });
+    });
+  }
+
+  mapRadioGroup("loan-purpose", "summary-loan-purpose");
+  mapRadioGroup("credit-score", "summary-credit-score");
+  mapRadioGroup("employment-structure", "summary-employment");
+
+  /* ==========================
+     Sliders (Income & Debt)
   ========================== */
   const incomeSlider = document.getElementById("income-input");
   const incomeDisplay = document.getElementById("income-display");
 
   if (incomeSlider && incomeDisplay) {
     const updateIncome = () => {
-      const val = Number(incomeSlider.value);
+      const val = Number(incomeSlider.value || 0);
       const text = val >= 100000 ? "$100K+" : formatCurrency(val);
       incomeDisplay.textContent = text;
       setSummary("summary-income", text);
@@ -143,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (debtSlider && debtDisplay) {
     const updateDebt = () => {
-      const val = Number(debtSlider.value);
+      const val = Number(debtSlider.value || 0);
       const text = val >= 50000 ? "$50K+" : formatCurrency(val);
       debtDisplay.textContent = text;
       setSummary("summary-debt", text);
@@ -153,19 +157,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================
-     INSURANCE CHECKBOXES
+     Insurance checkbox summary
   ========================== */
   const insuranceGroup = document.getElementById("insurance-group");
-
   if (insuranceGroup) {
     insuranceGroup.addEventListener("change", () => {
       const selected = Array.from(
         insuranceGroup.querySelectorAll('input[type="checkbox"]:checked')
-      ).map(c => c.value);
-
+      ).map((c) => c.value);
       setSummary("summary-insurance", selected.join(", ") || "—");
     });
   }
-
 });
-
