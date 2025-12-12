@@ -1,24 +1,23 @@
 @import "tokens.css";
 
 /* =========================================================
-   STEP CONTAINER (RIGHT SIDE)
+   STEP CONTAINER
 ========================================================= */
 
 .step {
   width: 100%;
-  max-width: 900px;
+  max-width: 760px;
+  margin: 0 auto;
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* =========================================================
-   QUESTION / HEADER
+   HEADER
 ========================================================= */
 
 .step-header {
   max-width: 760px;
-  margin: 0 auto 48px; /* exact spec: 48px spacing to answers */
+  margin: 0 auto 48px;
 }
 
 .step-title {
@@ -28,11 +27,10 @@
   font-size: 48px;
   line-height: 58px;
   color: var(--color-font-primary);
-  text-align: center;
 }
 
 .accent-word {
-  color: var(--color-font-accent); /* teal (#2FCAB2) */
+  color: var(--color-font-accent);
 }
 
 .step-subtitle {
@@ -42,7 +40,7 @@
 }
 
 /* =========================================================
-   ANSWER GRID (Loan Purpose, Credit Score, etc.)
+   ANSWER GRID
 ========================================================= */
 
 .pill-grid {
@@ -51,15 +49,12 @@
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-
-  column-gap: 24px;
   row-gap: 20px;
+  column-gap: 24px;
 
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
-/* Mobile: collapse to 1 column */
 @media (max-width: 760px) {
   .pill-grid {
     grid-template-columns: 1fr;
@@ -67,31 +62,26 @@
 }
 
 /* =========================================================
-   STEP ACTION BUTTONS (Back / Continue)
+   STEP ACTION BUTTONS
 ========================================================= */
 
 .step-actions {
   display: flex;
   justify-content: center;
   gap: 24px;
-  margin-top: 56px; /* exact spec alignment system */
+  margin-top: 56px;
 }
 
 /* =========================================================
-   TWO-COLUMN LAYOUTS (Employer, Personal Info)
+   TWO-COLUMN BLOCKS
 ========================================================= */
 
 .two-col {
-  width: 100%;
-  max-width: 760px;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 48px;
+  max-width: 760px;
+  margin: 0 auto 48px;
 }
 
 @media (max-width: 760px) {
@@ -101,12 +91,12 @@
 }
 
 /* =========================================================
-   SLIDER BLOCK (Income / Debt)
+   SLIDERS
 ========================================================= */
 
 .slider-block {
   max-width: 540px;
-  margin: 0 auto 56px; /* matches design baseline */
+  margin: 0 auto 56px;
 }
 
 .slider-top-row {
@@ -115,30 +105,16 @@
   margin-bottom: 8px;
 }
 
-.slider-label {
-  font-size: 14px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-font-primary);
-}
-
 .slider-range-label {
   margin-top: 6px;
-  font-size: 13px;
   color: var(--color-font-muted);
 }
 
 /* =========================================================
-   INPUT BLOCKS (Text Inputs)
+   INPUT BLOCKS
 ========================================================= */
 
 .input-block {
-  width: 100%;
   max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 32px;
-}
-
-.input-label {
-  text-align: left;
+  margin: 0 auto 32px;
 }
