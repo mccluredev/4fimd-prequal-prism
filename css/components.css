@@ -1,14 +1,14 @@
 @import "tokens.css";
 
 /* ============================
-   Buttons
+   Buttons (Continue / Back)
 ============================ */
 
 .btn {
-  border-radius: var(--radius-pill);
-  padding: 12px 36px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 26px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 500;
   border: none;
   cursor: pointer;
   transition: background var(--transition-fast),
@@ -16,20 +16,23 @@
     transform var(--transition-fast);
 }
 
+/* We'll style as "enabled" state by default (navy).
+   Later we can add a .btn-primary--disabled modifier in JS. */
+
 .btn-primary {
-  background: var(--btn-primary-bg); /* #2fcab2 */
-  color: var(--text-main);          /* #2d495a */
+  background: #2d495a;   /* enabled state background */
+  color: #ffffff;
   box-shadow: var(--shadow-soft);
 }
 
 .btn-primary:hover {
-  background: #27b39e;
+  background: #263f4e;
   transform: translateY(-1px);
 }
 
 .btn-secondary {
   background: #ffffff;
-  border: 1px solid var(--btn-secondary-border); /* #ebebeb */
+  border: 1px solid #ebebeb;
   color: var(--text-main);
 }
 
@@ -38,7 +41,7 @@
 }
 
 /* ============================
-   Inputs
+   Text Inputs
 ============================ */
 
 .input-block {
@@ -49,8 +52,9 @@
 .input-label {
   display: block;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
+  color: var(--text-main);
 }
 
 input[type="text"],
@@ -85,28 +89,30 @@ select {
 }
 
 /* ============================
-   Pill buttons (radio + checkbox)
-   – These match the big navy chips in the mockup
+   Answer Option Pills (right side)
 ============================ */
 
 .pill-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 22px; /* more airy vertical spacing like mockup */
-  margin-bottom: 36px; /* clear space before buttons */
+  column-gap: 24px; /* spec */
+  row-gap: 20px;    /* spec */
+  max-width: 760px;
+  margin: 0 auto 56px; /* centered under headline, space before buttons */
 }
 
 .pill-option {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 20px;
-  border-radius: 20px;
-  background: var(--bg-pill);       /* #2d495a */
-  color: var(--text-light);         /* white text */
-  border: 1px solid transparent;
-  font-size: 15px;
+  padding: 0 24px;
+  height: 56px;               /* spec */
+  border-radius: 28px;        /* spec */
+  background: #2d495a;        /* default */
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
   user-select: none;
   transition: background var(--transition-fast), color var(--transition-fast),
@@ -122,28 +128,28 @@ select {
   display: none;
 }
 
-/* Selected state – white background, teal border + teal text */
+/* Selected state – inverted emphasis */
 
 .pill-option:has(input:checked) {
-  background: var(--bg-pill-selected);    /* #faf8f2 */
-  color: var(--text-teal);                /* #2fcab2 */
-  border-color: var(--border-pill-selected); /* #2fcab2 */
+  background: #faf8f2;              /* matches page background */
+  color: #2d495a;
+  border: 2px solid #2fcab2;
   box-shadow: var(--shadow-soft);
   transform: translateY(-1px);
 }
 
-/* Hover for unselected navy pills */
+/* Hover state for unselected */
 
 .pill-option:hover {
   box-shadow: var(--shadow-soft);
 }
 
-/* lighter pill (consent text) */
+/* Lighter pill for consent text */
 
 .pill-option--light {
-  background: var(--bg-pill-light);       /* #ffffff */
+  background: #ffffff;
+  border: 1px solid #ebebeb;
   color: var(--text-main);
-  border-color: var(--border-pill);
   justify-content: flex-start;
 }
 
@@ -158,12 +164,12 @@ select {
 }
 
 /* ============================
-   Sliders
-   – Thin grey track + teal knob (per mockup)
+   Sliders (Income / Debt)
 ============================ */
 
 .slider-block {
-  margin-bottom: 36px;
+  max-width: 540px;
+  margin: 0 auto 56px;
 }
 
 .slider-top-row {
@@ -175,7 +181,7 @@ select {
 
 .slider-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-main);
 }
 
@@ -191,7 +197,7 @@ input[type="range"] {
   appearance: none;
   height: 6px;
   border-radius: 999px;
-  background: #ebebeb; /* match continue button border tone */
+  background: #ebebeb;
   outline: none;
 }
 
@@ -201,7 +207,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--teal);
+  background: var(--teal);  /* #2FCAB2 */
   border: none;
   cursor: pointer;
   box-shadow: 0 0 0 4px rgba(47, 202, 178, 0.25);
@@ -227,21 +233,21 @@ input[type="range"]::-moz-range-thumb {
 ============================ */
 
 #progress-dial {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   transform: rotate(-90deg);
 }
 
 .dial-bg {
   fill: none;
-  stroke: #e3ded6;
-  stroke-width: 10;
+  stroke: #e6e6e6;
+  stroke-width: 14px; /* spec stroke width */
 }
 
 .dial-progress {
   fill: none;
-  stroke: var(--teal);  /* #2fcab2 */
-  stroke-width: 10;
+  stroke: var(--teal);  /* #2FCAB2 */
+  stroke-width: 14px;
   stroke-linecap: round;
   stroke-dasharray: 339;
   stroke-dashoffset: 339;
@@ -249,8 +255,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .dial-percent {
-  margin-top: 6px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-main);
+  margin-top: 8px;
+  font-size: 40px;   /* spec */
+  font-weight: 500;
+  color: var(--teal);
 }
