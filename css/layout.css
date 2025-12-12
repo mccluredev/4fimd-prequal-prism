@@ -1,202 +1,158 @@
-@import "tokens.css";
+ @import "tokens.css";
 
-/* =========================================================
-   GLOBAL LAYOUT FOUNDATION
-   Sidebar 33%  |  Main Content 67%
-   Matches design spec framing
-========================================================= */
+/* ================================================
+   HIGH-LEVEL PAGE LAYOUT
+================================================ */
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-family-main);
-  background: var(--color-bg-main);
-  color: var(--color-font-primary);
-}
-
-/* =========================================================
-   MAIN GRID LAYOUT
-========================================================= */
-
-#prequal-app {
-  display: grid;
-  grid-template-columns: 33% 67%; /* Spec: Sidebar 33%, Content 67% */
+.layout {
+  display: flex;
+  width: 100%;
   min-height: 100vh;
+  background: var(--color-bg-main);
 }
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+/* ================================================
+   SIDEBAR — 30% WIDTH WITH LARGER PADDING
+================================================ */
 
-#sidebar {
-  background: var(--color-bg-sidebar);
-  border-right: 1px solid #e4dfd7;
-}
+.sidebar {
+  width: 30%;
+  min-width: 320px;
+  background: var(--color-bg-main);
+  
+  padding-top: 60px;    /* increased from 40px */
+  padding-left: 48px;   /* increased from 32px */
+  padding-right: 48px;  /* increased from 32px */
+  padding-bottom: 40px;
 
-.sidebar-inner {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 40px 32px 32px; /* Spec: 40 top | 32 sides/bottom */
-  align-items: stretch;
+  align-items: flex-start; 
+  border-right: 1px solid rgba(0,0,0,0.05);
 }
-
-/* Sidebar Title */
 
 .sidebar-title {
-  margin: 0 0 32px;
+  font-family: var(--font-family-main);
   font-size: 28px;
-  line-height: 34px;
   font-weight: var(--font-weight-medium);
   color: var(--color-font-primary);
-  text-align: left;
+  margin-bottom: 32px;
 }
 
-/* Section Navigation Pills */
+/* ================================================
+   SIDEBAR PILL NAVIGATION
+================================================ */
 
-#section-nav {
+.sidebar-nav {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 14px;             /* Spec: 14px spacing between pills */
-  margin-bottom: auto;   /* Push dial to the bottom */
+  gap: 14px;
+  margin-bottom: 90px; /* spacing before dial */
 }
-
-/* Base Pill Style */
 
 .section-pill {
-  height: 44px;                     /* Spec */
-  border-radius: var(--radius-medium-pill); /* 22px fully rounded */
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  width: 100%;
+  height: 44px;
+
+  padding: 0 20px;
+  border-radius: 22px;
+
+  font-family: var(--font-family-main);
   font-size: 16px;
-  font-weight: var(--font-weight-regular);
-  color: var(--color-font-muted);
+  font-weight: 400;
+
+  display: flex;
+  align-items: center;
+
   background: transparent;
-  border: 1px solid var(--color-border-default);
-  cursor: default;
-  transition: border-color var(--transition-fast),
-              background var(--transition-fast);
+  border: 1px solid var(--color-border-default); /* #EBEBEB */
+  color: var(--color-font-muted);               /* #747474 */
 }
 
-/* Active (current section) */
-
+/* ACTIVE */
 .section-pill.active {
-  border: 2px solid var(--color-border-active);  /* #747474 */
-  font-weight: var(--font-weight-medium);
+  border: 2px solid var(--color-font-muted); /* #747474 */
+  color: var(--color-font-muted);
+  font-weight: 500;
 }
 
-/* Completed */
-
-.section-pill.complete {
-  border: 2px solid var(--color-border-complete); /* #2FCAB2 */
-  background: var(--color-bg-complete-pill);      /* #FAFAFA */
+/* COMPLETED */
+.section-pill.completed {
+  background: var(--color-bg-completed);  /* #FAFAFA */
+  border: 2px solid var(--color-brand-teal);
+  color: var(--color-font-muted);
 }
 
-/* Progress Dial Container */
+/* ================================================
+   PROGRESS DIAL + LABEL
+================================================ */
 
-.dial-shell {
-  margin-top: 80px;  /* Spec: 80–100px above dial */
+.sidebar-progress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: auto;
+  padding-top: 40px;
+}
+
+.dial-percent {
+  margin-top: 12px;
+}
+
+/* ================================================
+   RIGHT SIDE CONTENT — NOW 70% WIDTH WITH MORE MARGINS
+================================================ */
+
+.content-area {
+  width: 70%;
+  
+  padding-top: 80px;     /* was 40 → more breathing room */
+  padding-bottom: 80px;  /* was 32 → aligns with dial bottom */
+  padding-left: 80px;
+  padding-right: 80px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.dial-arc-wrapper {
-  width: 180px;
-  height: 90px;
-  overflow: hidden;
-}
-
-/* =========================================================
-   MAIN CONTENT PANEL (Right Side)
-========================================================= */
-
-#main-panel {
-  background: var(--color-bg-main);
-  padding: 40px 80px 32px; /* Spec: mirror sidebar top/bottom */
-  display: flex;
-  align-items: stretch;  /* Ensures vertical sync with sidebar */
-}
-
-#prequal-form {
-  flex: 1;
-  display: flex;
-}
-
-/* =========================================================
-   STEP CONTAINER
-========================================================= */
-
+/* QUESTION + ANSWERS FRAME */
 .step {
-  flex: 1;
-  display: none;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
 }
 
-/* Active step:
-   - Content aligns using vertical frame system:
-     header/answers at top, actions at bottom.
-*/
-
-.step.active {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* Align bottom with dial */
-  align-items: center;            /* Center horizontally */
+.step-header {
+  margin-bottom: 56px; /* slightly increased spacing */
 }
 
-/* For multi-input layouts */
-
-.two-col {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+.step-actions {
+  margin-top: 60px; /* ensures button sits above bottom frame line */
 }
 
-/* =========================================================
-   RESPONSIVE BREAKPOINTS
-========================================================= */
+/* ================================================
+   RESPONSIVE ADJUSTMENTS
+================================================ */
 
-@media (max-width: 1200px) {
-  #prequal-app {
-    grid-template-columns: 300px 1fr; /* Sidebar minimum readable width */
+@media (max-width: 1000px) {
+  .layout {
+    flex-direction: column;
   }
-}
-
-@media (max-width: 900px) {
-  #prequal-app {
-    grid-template-columns: 1fr; /* Collapse to column layout */
+  
+  .sidebar {
+    width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
   }
-
-  #sidebar {
-    border-right: none;
-    border-bottom: 1px solid #e4dfd7;
-  }
-
-  .sidebar-inner {
-    padding: 24px 20px;
-  }
-
-  #main-panel {
-    padding: 24px 20px 40px;
-  }
-
-  #prequal-form {
-    display: block;
-  }
-
-  .step,
-  .step.active {
-    display: block;
-  }
-
-  .two-col {
-    grid-template-columns: 1fr;
+  
+  .content-area {
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 60px;
   }
 }
