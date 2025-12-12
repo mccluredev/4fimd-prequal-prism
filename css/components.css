@@ -5,7 +5,7 @@
 ========================================================= */
 
 .btn {
-  border-radius: 26px; /* 52px tall button → 26px radius */
+  border-radius: 26px;
   padding: 12px 40px;
   font-size: 16px;
   font-weight: var(--font-weight-medium);
@@ -18,37 +18,31 @@
               transform var(--transition-fast);
 }
 
-/* Enabled Continue (primary) */
-
 .btn-primary {
-  background: var(--color-btn-primary-bg); /* #2D495A */
-  color: #ffffff;
+  background: var(--color-btn-primary-bg);
+  color: #fff;
   box-shadow: var(--shadow-soft);
 }
 
 .btn-primary:hover {
-  background: #263f4e; /* slight darken */
+  background: #263f4e;
   transform: translateY(-1px);
 }
-
-/* Disabled state (used until option selected) */
 
 .btn-primary[disabled],
 .btn-primary.disabled,
 .btn-primary--disabled {
-  background: var(--color-btn-disabled-bg);   /* #EBEBEB */
-  color: var(--color-btn-disabled-text);      /* #747474 */
+  background: var(--color-btn-disabled-bg);
+  color: var(--color-btn-disabled-text);
   box-shadow: none;
   cursor: default;
   transform: none;
 }
 
-/* Secondary (Back) */
-
 .btn-secondary {
-  background: #ffffff;
-  border: 1px solid var(--color-border-default); /* #EBEBEB */
-  color: var(--color-font-primary);              /* #2D495A */
+  background: #fff;
+  border: 1px solid var(--color-border-default);
+  color: var(--color-font-primary);
 }
 
 .btn-secondary:hover {
@@ -56,7 +50,7 @@
 }
 
 /* =========================================================
-   TEXT INPUTS (used on other pages)
+   TEXT INPUTS
 ========================================================= */
 
 .input-block {
@@ -65,7 +59,6 @@
 }
 
 .input-label {
-  display: block;
   font-size: 14px;
   font-weight: var(--font-weight-medium);
   margin-bottom: 8px;
@@ -78,16 +71,15 @@ input[type="tel"],
 select {
   width: 100%;
   padding: 12px 14px;
-  border-radius: var(--radius-input); /* 12px */
+  border-radius: var(--radius-input);
   border: 1px solid #dedbd3;
   font-size: 16px;
   font-family: var(--font-family-main);
   color: var(--color-font-primary);
-  background: #ffffff;
+  background: #fff;
 }
 
 /* Currency input */
-
 .currency-input {
   position: relative;
 }
@@ -110,7 +102,6 @@ select {
 
 .pill-option {
   height: 56px;
-  min-width: 0;
   border-radius: 28px;
   padding: 0 28px;
 
@@ -124,23 +115,20 @@ select {
   text-align: center;
   white-space: nowrap;
 
-  background: var(--color-font-primary); /* #2D495A */
+  background: var(--color-font-primary);
+  color: #fff;
   border: 2px solid transparent;
-  color: #ffffff;
 
   cursor: pointer;
-  user-select: none;
-
   transition:
     background var(--transition-fast),
     color var(--transition-fast),
     border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
-    transform var(--transition-fast);
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .pill-option span {
-  display: block;
   width: 100%;
   text-align: center;
 }
@@ -149,7 +137,7 @@ select {
   display: none;
 }
 
-/* Hover preview (looks like selected) */
+/* Hover state */
 .pill-option:hover {
   background: var(--color-bg-main);
   color: var(--color-font-primary);
@@ -166,17 +154,14 @@ select {
   transform: translateY(-1px);
 }
 
-/* Make hover on selected stable */
 .pill-option:has(input:checked):hover {
   background: var(--color-bg-main);
   color: var(--color-font-primary);
   border-color: var(--color-brand-teal);
-  transform: translateY(-1px);
 }
 
-
 /* =========================================================
-   SLIDERS (Income / Debt pages)
+   SLIDERS
 ========================================================= */
 
 .slider-block {
@@ -187,7 +172,6 @@ select {
 .slider-top-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 8px;
 }
 
@@ -205,23 +189,18 @@ select {
 
 input[type="range"] {
   width: 100%;
-  -webkit-appearance: none;
   appearance: none;
   height: 6px;
   border-radius: 999px;
   background: #ebebeb;
-  outline: none;
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--color-brand-teal); /* #2FCAB2 */
-  border: none;
-  cursor: pointer;
+  background: var(--color-brand-teal);
   box-shadow: 0 0 0 4px rgba(47, 202, 178, 0.25);
 }
 
@@ -230,8 +209,6 @@ input[type="range"]::-moz-range-thumb {
   height: 20px;
   border-radius: 50%;
   background: var(--color-brand-teal);
-  border: none;
-  cursor: pointer;
 }
 
 .slider-range-label {
@@ -241,13 +218,13 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* =========================================================
-   PROGRESS DIAL VISUALS
+   PROGRESS DIAL (FIXED + CENTERED)
 ========================================================= */
 
 #progress-dial {
   width: 180px;
   height: 180px;
-  overflow: visible;
+  transform: rotate(180deg); /* correct orientation */
 }
 
 .dial-bg {
@@ -264,10 +241,5 @@ input[type="range"]::-moz-range-thumb {
   stroke-linecap: round;
   stroke-dasharray: 157;
   stroke-dashoffset: 157;
-
-  transform: rotate(180deg);
-  transform-origin: center;
-
   transition: stroke-dashoffset 0.6s ease-out;
 }
-
