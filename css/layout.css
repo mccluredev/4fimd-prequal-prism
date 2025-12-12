@@ -88,17 +88,30 @@
 ================================================ */
 
 .sidebar-progress {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  width: 180px;         /* fixed frame so dial doesn’t stretch */
+  height: 140px;
+  margin-top: auto;     /* stays at bottom of sidebar */
+  padding-top: 20px;
 
-  margin-top: auto;
-  padding-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* % TEXT: centered inside the semicircle */
 .dial-percent {
-  margin-top: 12px;
+  position: absolute;
+  top: 58%;             /* perfect vertical optical center inside arc */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  margin: 0;
+  font-size: 40px;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-main);
+  color: var(--color-brand-teal);
+  pointer-events: none;
 }
 
 /* ================================================
