@@ -15,15 +15,15 @@ body {
   color: var(--text-main);
 }
 
-/* App layout: sidebar + main */
+/* App layout: sidebar (25%) + main (75%) */
 
 #prequal-app {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px 1fr; /* ~25% / 75% */
   min-height: 100vh;
 }
 
-/* Sidebar layout */
+/* ========== SIDEBAR ========== */
 
 #sidebar {
   background: var(--bg-sidebar);
@@ -33,112 +33,117 @@ body {
 .sidebar-inner {
   display: flex;
   flex-direction: column;
-  align-items: center;        /* center horizontally */
-  justify-content: space-between; /* evenly distribute vertically */
   height: 100%;
-  padding: var(--space-lg) var(--space-md);
-  text-align: center;         /* centers sidebar text */
-  gap: var(--space-lg);
+  padding: 40px 32px 32px; /* top aligns with main; bottom frames with button */
+  align-items: stretch;
 }
+
+/* Title: "Application Summary" */
 
 .sidebar-title {
-  text-align: center;
-  width: 100%;
+  margin: 0 0 32px;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 500;
+  color: var(--text-main); /* #2D495A */
+  text-align: left;
 }
 
-.sidebar-title {
-  margin: 0 0 var(--space-sm);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-/* Section pill nav (Loan Information, etc.) */
+/* Section pills stack */
 
 #section-nav {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 100%;
+  gap: 14px;           /* spec */
+  margin-bottom: auto; /* pushes dial to bottom area */
 }
 
+/* Generic pill geometry */
+
 .section-pill {
-  width: 100%;
-  padding: 10px 18px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-pill); /* default #ebebeb */
-  background: #ffffff;
-  font-size: 14px;
-  text-align: left;
-  color: var(--text-main);
+  height: 44px;                     /* spec */
+  border-radius: 22px;              /* fully rounded */
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  background: transparent;
+  border: 1px solid var(--border-pill); /* default: #EBEBEB */
+  color: var(--text-muted);             /* #747474 */
   cursor: default;
   transition: border-color var(--transition-fast),
     background var(--transition-fast);
 }
 
+/* ACTIVE / IN-PROGRESS (current section) */
+
 .section-pill.active {
-  border: 2px solid var(--border-pill-active); /* #747474 */
+  border-width: 2px;
+  border-color: var(--border-pill-active); /* #747474 */
   background: transparent;
+  font-weight: 500;
+  color: var(--text-muted);
 }
+
+/* COMPLETED */
 
 .section-pill.complete {
-  border: 2px solid var(--border-pill-selected); /* #2fcab2 */
-  background: var(--bg-pill-complete); /* #fafafa */
+  border-width: 2px;
+  border-color: var(--border-pill-selected); /* #2FCAB2 */
+  background: var(--bg-pill-complete);       /* #FAFAFA */
+  font-weight: 400;
+  color: var(--text-muted);
 }
 
-/* Summary block in sidebar */
-
-.summary {
-  margin-top: var(--space-md);
-}
-
-.summary-field {
-  margin-bottom: 10px;
-}
-
-.summary-label {
-  display: block;
-  font-size: 12px;
-  color: var(--text-muted); /* #747474 */
-}
-
-.summary-value {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-/* Progress dial layout */
+/* Progress dial anchored toward bottom */
 
 .dial-shell {
-  margin-top: var(--space-lg);
+  margin-top: 80px; /* 80–100px from last pill as spec */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .dial-arc-wrapper {
-  width: 150px;
-  height: 75px;
+  width: 180px;
+  height: 90px;
   overflow: hidden;
 }
 
-/* Main panel layout */
+/* ========== RIGHT CONTENT AREA ========== */
 
 #main-panel {
-  padding: 40px 64px;
+  background: var(--bg-main);
+  padding: 40px 80px 32px; /* matches sidebar top & bottom padding */
   display: flex;
-  justify-content: center;
-  align-items: center; /* vertically center the step block */
+  align-items: stretch;     /* right column same height as sidebar */
 }
 
 #prequal-form {
-  width: 100%;
-  max-width: 760px; /* slightly wider to echo mockup */
+  flex: 1;
+  display: flex;
 }
 
-/* Grid helper for two-column text inputs */
+/* Each step fills the vertical frame:
+   - Top: title aligns with sidebar title
+   - Bottom: buttons align with dial bottom */
+
+.step {
+  flex: 1;
+  display: none;
+}
+
+.step.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* header+answers at top, buttons at bottom */
+  align-items: center;            /* horizontally center content block */
+}
+
+/* Two-column helper for text inputs */
 
 .two-col {
   display: grid;
@@ -159,12 +164,20 @@ body {
   }
 
   .sidebar-inner {
-    align-items: stretch;
-    justify-content: flex-start;
+    padding: 24px 20px;
   }
 
   #main-panel {
     padding: 24px 20px 40px;
+  }
+
+  #prequal-form {
+    display: block;
+  }
+
+  .step,
+  .step.active {
+    display: block;
   }
 
   .two-col {
