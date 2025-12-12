@@ -1,48 +1,63 @@
 @import "tokens.css";
 
-/* ============================
-   Buttons (Continue / Back)
-============================ */
+/* =========================================================
+   BUTTONS (PRIMARY / SECONDARY / DISABLED)
+========================================================= */
 
 .btn {
-  border-radius: 26px;
+  border-radius: 26px; /* 52px tall button → 26px radius */
   padding: 12px 40px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-main);
   border: none;
   cursor: pointer;
   transition: background var(--transition-fast),
-    color var(--transition-fast), box-shadow var(--transition-fast),
-    transform var(--transition-fast);
+              color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              transform var(--transition-fast);
 }
 
-/* We'll style as "enabled" state by default (navy).
-   Later we can add a .btn-primary--disabled modifier in JS. */
+/* Enabled Continue (primary) */
 
 .btn-primary {
-  background: #2d495a;   /* enabled state background */
+  background: var(--color-btn-primary-bg); /* #2D495A */
   color: #ffffff;
   box-shadow: var(--shadow-soft);
 }
 
 .btn-primary:hover {
-  background: #263f4e;
+  background: #263f4e; /* slight darken */
   transform: translateY(-1px);
 }
 
+/* Disabled state (used until option selected) */
+
+.btn-primary[disabled],
+.btn-primary.disabled,
+.btn-primary--disabled {
+  background: var(--color-btn-disabled-bg);   /* #EBEBEB */
+  color: var(--color-btn-disabled-text);      /* #747474 */
+  box-shadow: none;
+  cursor: default;
+  transform: none;
+}
+
+/* Secondary (Back) */
+
 .btn-secondary {
   background: #ffffff;
-  border: 1px solid #ebebeb;
-  color: var(--text-main);
+  border: 1px solid var(--color-border-default); /* #EBEBEB */
+  color: var(--color-font-primary);              /* #2D495A */
 }
 
 .btn-secondary:hover {
   background: #f5f5f5;
 }
 
-/* ============================
-   Text Inputs
-============================ */
+/* =========================================================
+   TEXT INPUTS (used on other pages)
+========================================================= */
 
 .input-block {
   margin-bottom: 24px;
@@ -52,9 +67,9 @@
 .input-label {
   display: block;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   margin-bottom: 8px;
-  color: var(--text-main);
+  color: var(--color-font-primary);
 }
 
 input[type="text"],
@@ -63,11 +78,12 @@ input[type="tel"],
 select {
   width: 100%;
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-input); /* 12px */
   border: 1px solid #dedbd3;
   font-size: 16px;
+  font-family: var(--font-family-main);
+  color: var(--color-font-primary);
   background: #ffffff;
-  color: var(--text-main);
 }
 
 /* Currency input */
@@ -81,43 +97,51 @@ select {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-muted);
+  color: var(--color-font-muted);
 }
 
 .currency-input input {
   padding-left: 26px;
 }
 
-/* ============================
-   Answer Option Pills (right side)
-============================ */
+/* =========================================================
+   ANSWER OPTION GRID (Loan Purpose, etc.)
+========================================================= */
+
+/* 2-column grid, fixed-width columns, centered under question */
 
 .pill-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 24px; /* spec */
-  row-gap: 20px;    /* spec */
-  max-width: 760px;
-  margin: 0 auto 56px; /* centered under headline, space before buttons */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 equal columns */
+  column-gap: 24px;  /* spec */
+  row-gap: 20px;     /* spec */
+  max-width: 760px;  /* spec */
+  margin: 0 auto 56px; /* centered + spacing before Continue button */
 }
+
+/* Answer option button (default state) */
 
 .pill-option {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0 24px;
-  height: 56px;               /* spec */
-  border-radius: 28px;        /* spec */
-  background: #2d495a;        /* default */
-  color: #ffffff;
+  height: 56px;                        /* spec */
+  border-radius: var(--radius-large-pill); /* 28px */
+  background: var(--color-font-primary);   /* #2D495A */
   border: none;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-main);
+  color: #ffffff;
+  text-align: center;
   cursor: pointer;
   user-select: none;
-  transition: background var(--transition-fast), color var(--transition-fast),
-    border-color var(--transition-fast), box-shadow var(--transition-fast),
-    transform var(--transition-fast);
+  transition: background var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              transform var(--transition-fast);
 }
 
 .pill-option span {
@@ -125,32 +149,47 @@ select {
 }
 
 .pill-option input {
-  display: none;
+  display: none; /* we style via the label */
 }
 
-/* Selected state – inverted emphasis */
+/* Hover / active */
+
+.pill-option:hover {
+  background: #34566b; /* slight lighten */
+}
+
+.pill-option:active {
+  background: #243747; /* slight darken */
+}
+
+/* Focus state (when input inside receives focus) */
+
+.pill-option:focus-within {
+  outline: 2px solid var(--color-brand-teal); /* #2FCAB2 */
+  outline-offset: 2px;
+}
+
+/* Selected state (radio checked) */
 
 .pill-option:has(input:checked) {
-  background: #faf8f2;              /* matches page background */
-  color: #2d495a;
-  border: 2px solid #2fcab2;
+  background: var(--color-bg-main);       /* #FAF8F2 */
+  color: var(--color-font-primary);       /* #2D495A */
+  border: 2px solid var(--color-brand-teal); /* #2FCAB2 */
   box-shadow: var(--shadow-soft);
   transform: translateY(-1px);
 }
 
-/* Hover state for unselected */
-
-.pill-option:hover {
-  box-shadow: var(--shadow-soft);
-}
-
-/* Lighter pill for consent text */
+/* =========================================================
+   LIGHTER PILL VARIANT (Consent box, etc.)
+========================================================= */
 
 .pill-option--light {
   background: #ffffff;
-  border: 1px solid #ebebeb;
-  color: var(--text-main);
+  border: 1px solid var(--color-border-default);
+  color: var(--color-font-primary);
   justify-content: flex-start;
+  height: auto;
+  min-height: 56px;
 }
 
 .pill-option--light input {
@@ -163,9 +202,9 @@ select {
   text-align: left;
 }
 
-/* ============================
-   Sliders (Income / Debt)
-============================ */
+/* =========================================================
+   SLIDERS (Income / Debt pages)
+========================================================= */
 
 .slider-block {
   max-width: 540px;
@@ -181,14 +220,14 @@ select {
 
 .slider-label {
   font-size: 14px;
-  font-weight: 500;
-  color: var(--text-main);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-font-primary);
 }
 
 .slider-value {
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--color-font-primary);
 }
 
 input[type="range"] {
@@ -207,7 +246,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--teal);  /* #2FCAB2 */
+  background: var(--color-brand-teal); /* #2FCAB2 */
   border: none;
   cursor: pointer;
   box-shadow: 0 0 0 4px rgba(47, 202, 178, 0.25);
@@ -217,7 +256,7 @@ input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--teal);
+  background: var(--color-brand-teal);
   border: none;
   cursor: pointer;
 }
@@ -225,12 +264,12 @@ input[type="range"]::-moz-range-thumb {
 .slider-range-label {
   margin-top: 6px;
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--color-font-muted);
 }
 
-/* ============================
-   Progress dial visuals
-============================ */
+/* =========================================================
+   PROGRESS DIAL VISUALS
+========================================================= */
 
 #progress-dial {
   width: 180px;
@@ -241,12 +280,12 @@ input[type="range"]::-moz-range-thumb {
 .dial-bg {
   fill: none;
   stroke: #e6e6e6;
-  stroke-width: 14px; /* spec stroke width */
+  stroke-width: 14px;
 }
 
 .dial-progress {
   fill: none;
-  stroke: var(--teal);  /* #2FCAB2 */
+  stroke: var(--color-brand-teal); /* #2FCAB2 */
   stroke-width: 14px;
   stroke-linecap: round;
   stroke-dasharray: 339;
@@ -256,7 +295,8 @@ input[type="range"]::-moz-range-thumb {
 
 .dial-percent {
   margin-top: 8px;
-  font-size: 40px;   /* spec */
-  font-weight: 500;
-  color: var(--teal);
+  font-size: 40px;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-main);
+  color: var(--color-brand-teal);
 }
