@@ -934,10 +934,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // Populate hidden Salesforce fields before submission
       populateSalesforceFields(formData);
 
-      // Execute reCAPTCHA Enterprise API and submit form
-        grecaptcha.enterprise.ready(async () => {
+      // Execute reCAPTCHA v3 API and submit form
+        grecaptcha.ready(async () => {
             try {
-              const token = await grecaptcha.enterprise.execute(
+              const token = await grecaptcha.execute(
                 '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
                 { action: 'submit' }
               );
@@ -955,7 +955,7 @@ document.addEventListener("DOMContentLoaded", () => {
               document.getElementById('prequal-form').submit();
           
             } catch (err) {
-              console.error('reCAPTCHA Enterprise error:', err);
+              console.error('reCAPTCHA error:', err);
 
               // Remove loading screen on failure
               const existingLoader = document.querySelector('.loading-screen');
