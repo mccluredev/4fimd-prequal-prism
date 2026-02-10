@@ -931,8 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Failed to save form data to localStorage:", e);
       }
 
-      // Execute reCAPTCHA API and submit form
-        grecaptcha.ready(async () => {
+      // Execute reCAPTCHA Enterprise API and submit form
+        grecaptcha.enterprise.ready(async () => {
             try {
               const token = await grecaptcha.enterprise.execute(
                 '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
