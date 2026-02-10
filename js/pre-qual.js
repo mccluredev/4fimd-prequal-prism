@@ -935,10 +935,11 @@ document.addEventListener("DOMContentLoaded", () => {
         grecaptcha.enterprise.ready(async function() {
           try {
             const token = await grecaptcha.enterprise.execute(
-              '6LdH30AsAAAAACFtYvyqfxw6BCw_ro_1K7oAFWsm',
+              '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
               { action: 'submit' }
             );
-        
+
+          
             // Add token to form
             document.getElementById('g-recaptcha-response').value = token;
         
