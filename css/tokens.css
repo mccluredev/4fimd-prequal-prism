@@ -13,18 +13,22 @@
 
   --color-bg-main: #faf8f2;           /* Page background, right panel */
   --color-bg-sidebar: #faf8f2;        /* Sidebar background */
-  --color-bg-complete-pill: #fafafa;  /* Completed pill fill */
+  --color-bg-completed: #fafafa;      /* Completed pill fill */
 
   --color-border-default: #ebebeb;    /* Inactive sidebar pill border */
   --color-border-active: #747474;     /* Active (current) section border */
   --color-border-complete: #2fcab2;   /* Completed section border */
+  --color-border-input: #dedbd3;      /* Input field border */
 
   --color-brand-teal: #2fcab2;        /* Brand highlight, dial progress */
 
   /* Buttons */
   --color-btn-primary-bg: #2d495a;    /* Continue (enabled) */
+  --color-btn-primary-hover: #263f4e;
   --color-btn-disabled-bg: #ebebeb;   /* Continue (disabled) */
   --color-btn-disabled-text: #747474;
+  --color-btn-secondary-bg: #fff;
+  --color-btn-secondary-hover: #f5f5f5;
 
   /* ---------------------------------------
      TYPOGRAPHY
@@ -34,6 +38,16 @@
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Font sizes */
+  --font-size-48: 48px;
+  --font-size-28: 28px;
+  --font-size-20: 20px;
+  --font-size-16: 16px;
+  --font-size-14: 14px;
+  --font-size-13: 13px;
+  --font-size-40: 40px;
 
   /* ---------------------------------------
      SPACING SCALE (based on your spec)
@@ -55,6 +69,7 @@
   --radius-large-pill: 28px;   /* Option pills (56px tall → 28px radius) */
   --radius-medium-pill: 22px;  /* Sidebar pills (44px tall → 22px radius) */
   --radius-input: 12px;        
+  --radius-button: 26px;
 
   /* ---------------------------------------
      SHADOWS
@@ -65,4 +80,6 @@
      TRANSITIONS
   ---------------------------------------- */
   --transition-fast: 0.18s ease-out;
+  --transition-medium: 0.3s ease-out;
+  --transition-smooth: 0.6s ease-out;
 }
