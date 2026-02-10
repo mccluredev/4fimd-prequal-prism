@@ -931,6 +931,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Failed to save form data to localStorage:", e);
       }
 
+      // Populate hidden Salesforce fields before submission
+      populateSalesforceFields(formData);
+
       // Execute reCAPTCHA Enterprise API and submit form
         grecaptcha.enterprise.ready(async () => {
             try {
