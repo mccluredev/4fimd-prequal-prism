@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>4FiMD Pre-Qualification</title>
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LdH30AsAAAAACFtYvyqfxw6BCw_ro_1K7oAFWsm"></script>
 </head>
 
 <body>
 
 <div class="layout">
 
-    <!-- =====================================================
-         SIDEBAR (Left 30% of screen)
-    ====================================================== -->
+    <!-- SIDEBAR (Left 30% of screen) -->
     <aside class="sidebar">
 
         <h2 class="sidebar-title">Application Summary</h2>
@@ -27,50 +30,90 @@
         </nav>
 
         <div class="sidebar-progress">
-            <svg id="progress-dial" viewBox="0 0 120 60">
-                <path class="dial-bg" d="M10 60 A50 50 0 0 1 110 60" />
-                <path class="dial-progress" d="M10 60 A50 50 0 0 1 110 60" />
+            <svg id="progress-dial" viewBox="0 0 100 55">
+                <path class="dial-bg" d="M5 55 A45 45 0 0 1 95 55" />
+                <path class="dial-progress" d="M5 55 A45 45 0 0 1 95 55" />
             </svg>
-            <div class="dial-percent">0%</div>
+            <div class="dial-percent" id="progress-label">0%</div>
         </div>
 
     </aside>
 
-    <!-- =====================================================
-         MAIN CONTENT (Right 70% of screen)
-    ====================================================== -->
+    <!-- MAIN CONTENT (Right 70% of screen) -->
     <main class="content-area">
 
-        <!-- REQUIRED WRAPPER for vertical alignment + JS step control -->
         <div id="form-container">
 
-            <form id="prequal-form" novalidate>
+            <form id="prequal-form" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DHs000003XeKL" method="POST" target="_top" novalidate>
 
-                <!-- =====================================================
-                     SECTION 1 — LOAN INFORMATION
-                ====================================================== -->
+              <!-- Salesforce Web-to-Lead Hidden Fields (PRODUCTION) -->
+              <input type="hidden" name="captcha_settings" value='{"keyname":"PrequalProduction","fallback":"true","orgId":"00DHs000003XeKL","ts":""}'>
+              <input type="hidden" name="oid" value="00DHs000003XeKL">
+              
+              <!-- retURL is ignored in your JS flow (you clear it before submit), but set it to prod anyway -->
+              <input type="hidden" name="retURL" id="salesforce-returl" value="https://4fimd.com/complete/?submitted=true">
+              
+              <input type="hidden" name="lead_source" value="Website">
+              <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+              
+              <!-- Hidden Salesforce mapped fields (populated by JavaScript before submission) -->
+              <input type="hidden" name="first_name" id="sf-first-name">
+              <input type="hidden" name="last_name" id="sf-last-name">
+              <input type="hidden" name="email" id="sf-email">
+              <input type="hidden" name="mobile" id="sf-mobile">
+              
+              <!-- Core financial fields (IDs appear consistent in your prod snippet) -->
+              <input type="hidden" name="00NHs00000lzslH" id="sf-loan-amount">
+              <input type="hidden" name="00NHs00000scaqg" id="sf-loan-purpose"> <!-- keep ONLY if this matches prod; see note below -->
+              <input type="hidden" name="00NHs00000m08cg" id="sf-credit-score">
+              <input type="hidden" name="00NHs00000m08cl" id="sf-income">
+              <input type="hidden" name="00NHs00000m08cq" id="sf-debt">
+              <input type="hidden" name="00NHs00000m08cv" id="sf-business-years">
+              <input type="hidden" name="00NHs00000sduCM" id="sf-business-zip">
+              
+              <!-- Employer/Owner fields (UPDATED to PROD 00NQP...) -->
+              <input type="hidden" name="00NQP00000825tT" id="sf-employment-structure">
+              <input type="hidden" name="00NQP00000825tf" id="sf-payment-type">
+              <input type="hidden" name="00NQP00000825te" id="sf-payment-duration">
+              <input type="hidden" name="00NQP00000825tR" id="sf-employer-name">
+              <input type="hidden" name="00NQP00000825tS" id="sf-employer-type">
+              
+              <input type="hidden" name="00NQP00000825ta" id="sf-physicians-count">
+              <input type="hidden" name="00NQP00000825tb" id="sf-providers-count">
+              <input type="hidden" name="00NQP00000825tU" id="sf-affiliations"> <!-- NOTE: this is "Hospital Affiliation" in prod snippet -->
+              
+              <input type="hidden" name="00NQP00000826cc" id="sf-patient-volume">
+              <input type="hidden" name="00NQP00000825tZ" id="sf-payers-count">
+              
+              <input type="hidden" name="00NQP00000825tg" id="sf-private-insurance">
+              <input type="hidden" name="00NQP00000825tX" id="sf-medicare">
+              <input type="hidden" name="00NQP00000825tW" id="sf-medicaid">
+              <input type="hidden" name="00NQP00000825tc" id="sf-other-payer">
+              
+              <input type="hidden" name="00NQP00000825tV" id="sf-insurance-types">
+              <input type="hidden" name="00NQP00000825tY" id="sf-npi">
+              <input type="hidden" name="00NQP00000826cb" id="sf-specialty">
+              <input type="hidden" name="00NQP00000825td" id="sf-other-specialty">
+
+                <!-- SECTION 1 — LOAN INFORMATION -->
 
                 <!-- STEP 1: Loan Amount -->
                 <section class="step active" id="step-loan-amount" data-section="loan-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Requested <span class="accent-word">loan amount</span>
+                            How much would you like to <span class="accent-word">borrow</span>?
                         </h1>
-                        <p class="step-subtitle">Tell us how much you’d like to finance.</p>
                     </header>
 
                     <div class="input-block">
-                        <label for="loan-amount-input" class="input-label">Requested Loan Amount</label>
                         <div class="currency-input">
                             <span class="currency-prefix">$</span>
-                            <input id="loan-amount-input" type="text" inputmode="numeric" autocomplete="off" placeholder="0" />
+                            <input id="loan-amount-input" type="text" inputmode="numeric" autocomplete="off" placeholder="50,000" />
                         </div>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-primary btn-next" type="button" data-next="step-loan-purpose">
-                            Continue
-                        </button>
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-loan-purpose">Continue</button>
                     </div>
                 </section>
 
@@ -78,7 +121,7 @@
                 <section class="step" id="step-loan-purpose" data-section="loan-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            What’s the <span class="accent-word">purpose</span> of the loan?
+                            What's the <span class="accent-word">purpose</span> of the loan?
                         </h1>
                     </header>
 
@@ -110,154 +153,160 @@
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-loan-amount">Back</button>
                         <button class="btn btn-primary btn-next" type="button" data-next="step-credit-score">Continue</button>
                     </div>
                 </section>
 
 
-                <!-- =====================================================
-                     SECTION 2 — FINANCIAL INFORMATION
-                ====================================================== -->
+                <!-- SECTION 2 — FINANCIAL INFORMATION -->
 
-                <!-- STEP 3: Credit Score -->
+                <!-- STEP 2: Credit Score -->
                 <section class="step" id="step-credit-score" data-section="financial-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            What’s your estimated <span class="accent-word">credit score</span>?
+                            What's your estimated <span class="accent-word">credit score</span>?
                         </h1>
                     </header>
 
                     <div class="pill-grid">
                         <label class="pill-option">
-                            <input type="radio" name="credit-score" value="720–850" />
-                            <span>720–850</span>
+                            <input type="radio" name="credit-score" value="720-850" />
+                            <span>720 - 850</span>
                         </label>
                         <label class="pill-option">
-                            <input type="radio" name="credit-score" value="680–719" />
-                            <span>680–719</span>
+                            <input type="radio" name="credit-score" value="680-719" />
+                            <span>680 - 719</span>
                         </label>
                         <label class="pill-option">
-                            <input type="radio" name="credit-score" value="640–679" />
-                            <span>640–679</span>
+                            <input type="radio" name="credit-score" value="640-679" />
+                            <span>640 - 679</span>
                         </label>
                         <label class="pill-option">
-                            <input type="radio" name="credit-score" value="0–639" />
-                            <span>0–639</span>
+                            <input type="radio" name="credit-score" value="0-639" />
+                            <span>0 - 639</span>
                         </label>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-loan-purpose">Back</button>
                         <button class="btn btn-primary btn-next" type="button" data-next="step-income">Continue</button>
                     </div>
                 </section>
 
-                <!-- STEP 4: Income -->
+                <!-- STEP 3: Income -->
                 <section class="step" id="step-income" data-section="financial-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            What’s your estimated monthly <span class="accent-word">income</span>?
+                            What's your estimated <span class="accent-word">monthly income</span>?
                         </h1>
                     </header>
 
                     <div class="slider-block">
-                        <div class="slider-top-row">
-                            <div class="slider-label">Estimated Monthly Income</div>
-                            <div class="slider-value" id="income-display">$0</div>
+                        <div class="slider-value" id="income-display">$40,000</div>
+                        <input type="range" id="income-input" min="0" max="100000" value="40000" step="1000" />
+                        <div class="slider-bottom-row">
+                            <span class="slider-range-label">$0</span>
+                            <span class="slider-range-label">$100K+</span>
                         </div>
-                        <input type="range" id="income-input" min="0" max="100000" step="500" />
-                        <div class="slider-range-label">$0 – $100K+</div>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-credit-score">Back</button>
                         <button class="btn btn-primary btn-next" type="button" data-next="step-debt">Continue</button>
                     </div>
                 </section>
 
-                <!-- STEP 5: Debt -->
+                <!-- STEP 4: Debt -->
                 <section class="step" id="step-debt" data-section="financial-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            What’s your estimated monthly <span class="accent-word">debt</span> payments?
+                            What's your estimated <span class="accent-word">monthly debt payments</span>?
                         </h1>
                     </header>
 
                     <div class="slider-block">
-                        <div class="slider-top-row">
-                            <div class="slider-label">Estimated Monthly Debt</div>
-                            <div class="slider-value" id="debt-display">$0</div>
+                        <div class="slider-value" id="debt-display">$12,000</div>
+                        <input type="range" id="debt-input" min="0" max="50000" value="12000" step="1000" />
+                        <div class="slider-bottom-row">
+                            <span class="slider-range-label">$0</span>
+                            <span class="slider-range-label">$50K+</span>
                         </div>
-                        <input type="range" id="debt-input" min="0" max="50000" step="250" />
-                        <div class="slider-range-label">$0 – $50K+</div>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-income">Back</button>
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-transition">Continue</button>
+                    </div>
+                </section>
+
+                <!-- STEP 5: Transition Screen -->
+                <section class="step" id="step-transition" data-section="financial-info">
+                    <header class="step-header">
+                        <h1 class="step-title">Thanks! You're almost done.</h1>
+                        <p class="step-subtitle">
+                            While banks only care about your credit, our next section will <span class="accent-word">focus on you</span> and your practice - 
+                            Because we know that <span class="accent-word">you are more</span> than just a number.
+                        </p>
+                    </header>
+
+                    <div class="step-actions">
                         <button class="btn btn-primary btn-next" type="button" data-next="step-employment-structure">Continue</button>
                     </div>
                 </section>
 
 
-                <!-- =====================================================
-                     SECTION 3 — EMPLOYMENT INFORMATION
-                ====================================================== -->
+                <!-- SECTION 3 — EMPLOYMENT INFORMATION -->
 
-                <!-- STEP 6: Employment Structure -->
+                <!-- STEP 6: Employment Structure (BRANCH POINT) -->
                 <section class="step" id="step-employment-structure" data-section="employment-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Tell us about your <span class="accent-word">employment</span> structure.
+                            What best describes your <span class="accent-word">role</span>?
                         </h1>
                     </header>
 
-                    <div class="pill-grid">
+                    <div class="pill-grid single-col">
                         <label class="pill-option">
-                            <input type="radio" name="employment-structure" value="I am employed by a practice or system" />
+                            <input type="radio" name="employment-structure" value="Employed" data-branch="employed" />
                             <span>I am employed by a practice or system</span>
                         </label>
                         <label class="pill-option">
-                            <input type="radio" name="employment-structure" value="I am an owner or partner in a practice" />
+                            <input type="radio" name="employment-structure" value="Owner" data-branch="owner" />
                             <span>I am an owner or partner in a practice</span>
                         </label>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-debt">Back</button>
-                        <button class="btn btn-primary btn-next" type="button" data-next="step-compensation">Continue</button>
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-compensation-employed" data-branch-next>Continue</button>
                     </div>
                 </section>
 
-                <!-- STEP 7: Compensation -->
-                <section class="step" id="step-compensation" data-section="employment-info">
+                <!-- EMPLOYED PATH: Compensation -->
+                <section class="step branch-employed" id="step-compensation-employed" data-section="employment-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Tell us about your <span class="accent-word">compensation</span>.
+                            How do you generate <span class="accent-word">income</span>?
                         </h1>
                     </header>
 
-                    <div class="input-block">
-                        <div class="input-label">Tell us about your payment structure.</div>
-                        <div class="pill-grid">
+                    <div class="form-group">
+                        <label class="form-label">Tell us about your employment structure</label>
+                        <div class="pill-grid three-col">
                             <label class="pill-option">
-                                <input type="radio" name="payment-structure" value="W2" />
+                                <input type="radio" name="payment-type" value="W2" />
                                 <span>W2</span>
                             </label>
                             <label class="pill-option">
-                                <input type="radio" name="payment-structure" value="1099" />
+                                <input type="radio" name="payment-type" value="1099" />
                                 <span>1099</span>
                             </label>
                             <label class="pill-option">
-                                <input type="radio" name="payment-structure" value="Both" />
+                                <input type="radio" name="payment-type" value="Both" />
                                 <span>Both</span>
                             </label>
                         </div>
                     </div>
 
-                    <div class="input-block">
-                        <div class="input-label">How long have you been paid like this?</div>
-                        <div class="pill-grid">
+                    <div class="form-group">
+                        <label class="form-label">How long have you been paid like this?</label>
+                        <div class="pill-grid three-col">
                             <label class="pill-option">
                                 <input type="radio" name="payment-duration" value="Less than one year" />
                                 <span>Less than one year</span>
@@ -274,69 +323,181 @@
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-employment-structure">Back</button>
-                        <button class="btn btn-primary btn-next" type="button" data-next="step-employer">Continue</button>
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-employer-employed">Continue</button>
                     </div>
                 </section>
 
 
-                <!-- =====================================================
-                     SECTION 4 — PRACTICE INFORMATION
-                ====================================================== -->
+                <!-- SECTION 4 — PRACTICE INFORMATION -->
 
-                <!-- STEP 8: Employer -->
-                <section class="step" id="step-employer" data-section="practice-info">
+                <!-- EMPLOYED PATH: Employer Details -->
+                <section class="step branch-employed" id="step-employer-employed" data-section="practice-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Tell us about your <span class="accent-word">employer</span>.
+                            Who is your <span class="accent-word">employer</span>?
+                        </h1>
+                    </header>
+
+                    <div class="input-block">
+                        <label for="employer-name-input" class="input-label">What's your employer's name?*</label>
+                        <input id="employer-name-input" type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">What best describes your employer?</label>
+                        <div class="pill-grid three-col">
+                            <label class="pill-option">
+                                <input type="radio" name="employer-type" value="For-profit" />
+                                <span>For-profit</span>
+                            </label>
+                            <label class="pill-option">
+                                <input type="radio" name="employer-type" value="Non-profit" />
+                                <span>Non-profit</span>
+                            </label>
+                            <label class="pill-option">
+                                <input type="radio" name="employer-type" value="Public" />
+                                <span>Public</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-insurance">Continue</button>
+                    </div>
+                </section>
+
+                <!-- OWNER PATH: Practice Basics -->
+                <section class="step branch-owner" id="step-practice-basics" data-section="practice-info">
+                    <header class="step-header">
+                        <h1 class="step-title">
+                            What does <span class="accent-word">your practice</span> look like?
                         </h1>
                     </header>
 
                     <div class="two-col">
                         <div class="input-block">
-                            <label for="employer-name-input" class="input-label">What’s your employer’s name?</label>
-                            <input id="employer-name-input" type="text" />
+                            <label for="business-years-input" class="input-label">How long has it been in business? (in years)</label>
+                            <input id="business-years-input" type="text" placeholder="7" />
                         </div>
-
                         <div class="input-block">
-                            <div class="input-label">What best describes your employer?</div>
-                            <div class="pill-grid">
-                                <label class="pill-option">
-                                    <input type="radio" name="employer-type" value="For-profit" />
-                                    <span>For-profit</span>
-                                </label>
-                                <label class="pill-option">
-                                    <input type="radio" name="employer-type" value="Non-profit" />
-                                    <span>Non-profit</span>
-                                </label>
-                                <label class="pill-option">
-                                    <input type="radio" name="employer-type" value="Public" />
-                                    <span>Public</span>
-                                </label>
-                            </div>
+                            <label for="business-zip-input" class="input-label">What is your business zip code?</label>
+                            <input id="business-zip-input" type="text" inputmode="numeric" placeholder="12345" maxlength="5" />
+                        </div>
+                    </div>
+
+                    <div class="two-col">
+                        <div class="input-block">
+                            <label for="physicians-count-input" class="input-label">How many physicians are in the practice?</label>
+                            <input id="physicians-count-input" type="number" min="0" placeholder="0" />
+                        </div>
+                        <div class="input-block">
+                            <label for="providers-count-input" class="input-label">How many providers are in the practice?</label>
+                            <input id="providers-count-input" type="number" min="0" placeholder="0" />
                         </div>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-compensation">Back</button>
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-affiliations">Continue</button>
+                    </div>
+                </section>
+
+                <!-- OWNER PATH: Affiliations -->
+                <section class="step branch-owner" id="step-affiliations" data-section="practice-info">
+                    <header class="step-header">
+                        <h1 class="step-title">
+                            Do you have any <span class="accent-word">system affiliations</span> or partnerships?
+                        </h1>
+                    </header>
+
+                    <div class="pill-grid single-col">
+                        <label class="pill-option">
+                            <input type="radio" name="affiliations" value="Yes" />
+                            <span>Yes</span>
+                        </label>
+                        <label class="pill-option">
+                            <input type="radio" name="affiliations" value="No" />
+                            <span>No</span>
+                        </label>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-patient-volume">Continue</button>
+                    </div>
+                </section>
+
+                <!-- OWNER PATH: Patient Volume -->
+                <section class="step branch-owner" id="step-patient-volume" data-section="practice-info">
+                    <header class="step-header">
+                        <h1 class="step-title">
+                            What's the estimated <span class="accent-word">monthly patient volume</span> for the practice?
+                        </h1>
+                    </header>
+
+                    <div class="input-block">
+                        <input id="patient-volume-input" type="number" min="0" placeholder="0" style="text-align: center; font-size: 24px;" />
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="btn btn-primary btn-next" type="button" data-next="step-payer-mix">Continue</button>
+                    </div>
+                </section>
+
+                <!-- OWNER PATH: Payer Mix -->
+                <section class="step branch-owner" id="step-payer-mix" data-section="practice-info">
+                    <header class="step-header">
+                        <h1 class="step-title">
+                            What is your <span class="accent-word">payer mix</span>?
+                        </h1>
+                    </header>
+
+                    <div style="max-width: 760px; margin: 0 auto;">
+                        <div style="margin-bottom: 32px;">
+                            <label for="payers-count-input" class="input-label" style="text-align: left; display: block; margin-bottom: 8px;">How many payers is your practice working with?</label>
+                            <input id="payers-count-input" type="number" min="0" placeholder="0" style="text-align: left; width: 552px;" />
+                        </div>
+
+                        <div>
+                            <label class="form-label" style="text-align: left; display: block; margin-bottom: 16px;">Please estimate the percentage makeup of your payer mix</label>
+                            <div style="display: flex; gap: 24px; margin-bottom: 16px;">
+                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
+                                    <label for="payer-private-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Private (%)</label>
+                                    <input id="payer-private-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                </div>
+                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
+                                    <label for="payer-medicare-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Medicare (%)</label>
+                                    <input id="payer-medicare-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                </div>
+                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
+                                    <label for="payer-medicaid-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Medicaid (%)</label>
+                                    <input id="payer-medicaid-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                </div>
+                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
+                                    <label for="payer-other-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Other (%)</label>
+                                    <input id="payer-other-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                </div>
+                            </div>
+                            <div id="payer-total-display" style="text-align: left; font-size: 16px; font-family: var(--font-family-main); color: var(--color-font-primary);"></div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
                         <button class="btn btn-primary btn-next" type="button" data-next="step-insurance">Continue</button>
                     </div>
                 </section>
 
 
-                <!-- =====================================================
-                     SECTION 5 — PERSONAL INFORMATION
-                ====================================================== -->
+                <!-- SECTION 5 — PERSONAL INFORMATION -->
 
                 <!-- STEP 9: Insurance -->
                 <section class="step" id="step-insurance" data-section="personal-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Tell us about your <span class="accent-word">insurance</span> coverage.
+                            Do you have <span class="accent-word">insurance</span>?
                         </h1>
+                        <p class="step-subtitle">Check all that apply to you.</p>
                     </header>
 
-                    <div class="pill-grid" id="insurance-group">
+                    <div class="pill-grid three-col" id="insurance-group">
                         <label class="pill-option">
                             <input type="checkbox" name="insurance" value="Life" />
                             <span>Life</span>
@@ -352,7 +513,6 @@
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-employer">Back</button>
                         <button class="btn btn-primary btn-next" type="button" data-next="step-personal">Continue</button>
                     </div>
                 </section>
@@ -361,34 +521,79 @@
                 <section class="step" id="step-personal" data-section="personal-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            Tell us about <span class="accent-word">yourself</span>.
+                            What's your <span class="accent-word">name</span>?
                         </h1>
+                        <p class="step-subtitle">This helps us customize your payment and pre-qualification</p>
                     </header>
 
                     <div class="two-col">
                         <div class="input-block">
-                            <label for="first-name-input" class="input-label">First Name</label>
-                            <input id="first-name-input" type="text" />
+                            <input id="first-name-input" type="text" placeholder="First Name" />
                         </div>
                         <div class="input-block">
-                            <label for="last-name-input" class="input-label">Last Name</label>
-                            <input id="last-name-input" type="text" />
+                            <input id="last-name-input" type="text" placeholder="Last Name" />
                         </div>
                     </div>
 
                     <div class="two-col">
                         <div class="input-block">
-                            <label for="npi-input" class="input-label">NPI Number</label>
-                            <input id="npi-input" type="text" />
+                            <input id="npi-input" type="text" placeholder="NPI Number" />
                         </div>
                         <div class="input-block">
-                            <label for="specialty-input" class="input-label">Medical Specialty</label>
-                            <input id="specialty-input" type="text" />
+                            <select id="specialty-input">
+                                <option value="" disabled selected>Medical Specialty</option>
+                                <option value="Acupuncturist (LAc, DAOM)">Acupuncturist (LAc, DAOM)</option>
+                                <option value="Advanced Practicing Registered Nurse (APRN)">Advanced Practicing Registered Nurse (APRN)</option>
+                                <option value="Advanced Registered Nurse Practitioner (ARNP, NP)">Advanced Registered Nurse Practitioner (ARNP, NP)</option>
+                                <option value="Anesthesiology">Anesthesiology</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Certified Registered Nurse Anesthetist (CRNA)">Certified Registered Nurse Anesthetist (CRNA)</option>
+                                <option value="Chiropractor (DC)">Chiropractor (DC)</option>
+                                <option value="Dentist (DDS, DMD)">Dentist (DDS, DMD)</option>
+                                <option value="Dermatology">Dermatology</option>
+                                <option value="Emergency Medicine">Emergency Medicine</option>
+                                <option value="Family Medicine">Family Medicine</option>
+                                <option value="Internal Medicine">Internal Medicine</option>
+                                <option value="Mental Health Counselor (LPC, LMHC, NCC)">Mental Health Counselor (LPC, LMHC, NCC)</option>
+                                <option value="Naturopathic Doctor (ND, NMD)">Naturopathic Doctor (ND, NMD)</option>
+                                <option value="Neurology">Neurology</option>
+                                <option value="Obstetrics & Gynecology">Obstetrics & Gynecology</option>
+                                <option value="Occupational Therapist (OTR, OTD)">Occupational Therapist (OTR, OTD)</option>
+                                <option value="Ophthalmology">Ophthalmology</option>
+                                <option value="Optometrist (OD)">Optometrist (OD)</option>
+                                <option value="Orthopedics">Orthopedics</option>
+                                <option value="Otolaryngology">Otolaryngology</option>
+                                <option value="Pathology">Pathology</option>
+                                <option value="Pediatrics">Pediatrics</option>
+                                <option value="Pharmacist (PharmD, RPh)">Pharmacist (PharmD, RPh)</option>
+                                <option value="Physical Therapist (PT, DPT)">Physical Therapist (PT, DPT)</option>
+                                <option value="Physician/Surgeon (MD, DO)">Physician/Surgeon (MD, DO)</option>
+                                <option value="Physician Assistant (PA, PA-C)">Physician Assistant (PA, PA-C)</option>
+                                <option value="Plastic Surgery">Plastic Surgery</option>
+                                <option value="Podiatrist (DPM)">Podiatrist (DPM)</option>
+                                <option value="Psychiatry">Psychiatry</option>
+                                <option value="Psychologist (PhD, PsyD, EdD)">Psychologist (PhD, PsyD, EdD)</option>
+                                <option value="Radiology">Radiology</option>
+                                <option value="Social Worker (LCSW, MSW, LICSW)">Social Worker (LCSW, MSW, LICSW)</option>
+                                <option value="Speech-Language Pathologist (SLP, CCC-SLP)">Speech-Language Pathologist (SLP, CCC-SLP)</option>
+                                <option value="Surgery">Surgery</option>
+                                <option value="Urology">Urology</option>
+                                <option value="Veterinarian (DVM)">Veterinarian (DVM)</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="input-block" id="other-specialty-block" style="display: none;">
+                            <label for="other-specialty-input" class="input-label">Please specify your specialty</label>
+                            <input id="other-specialty-input" type="text" placeholder="Enter your specialty" />
                         </div>
                     </div>
 
+                    <p class="disclaimer-text">
+                        4FiMD respects data privacy and will never sell your personal information. 
+                        We also do not conduct a credit pull to estimate your monthly payment.
+                    </p>
+
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-insurance">Back</button>
                         <button class="btn btn-primary btn-next" type="button" data-next="step-contact">Continue</button>
                     </div>
                 </section>
@@ -397,41 +602,88 @@
                 <section class="step" id="step-contact" data-section="personal-info">
                     <header class="step-header">
                         <h1 class="step-title">
-                            How can we <span class="accent-word">contact</span> you?
+                            How can we <span class="accent-word">reach you</span>?
                         </h1>
                     </header>
 
-                    <div class="two-col">
-                        <div class="input-block">
-                            <label for="email-input" class="input-label">Email</label>
-                            <input id="email-input" type="email" />
-                        </div>
-                        <div class="input-block">
-                            <label for="phone-input" class="input-label">Phone Number</label>
-                            <input id="phone-input" type="tel" />
-                        </div>
+                    <div class="input-block narrow">
+                        <label for="email-input" class="input-label">Email</label>
+                        <input id="email-input" type="email" />
                     </div>
 
-                    <div class="input-block">
-                        <label class="pill-option pill-option--light consent-pill">
-                            <input type="checkbox" id="consent-input" value="I agree to be contacted by email, text, or phone." />
-                            <span>I agree to be contacted by email, text, or phone.</span>
+                    <div class="input-block narrow">
+                        <label for="phone-input" class="input-label">Phone Number</label>
+                        <input id="phone-input" type="tel" />
+                    </div>
+
+                    <div class="input-block narrow">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consent-input" value="I agree" />
+                            <span>I agree that 4FiMD may contact me by email, text, or phone with updates and offers. I can opt out anytime—details are in our Privacy Policy.</span>
                         </label>
                     </div>
 
                     <div class="step-actions">
-                        <button class="btn btn-secondary btn-prev" type="button" data-prev="step-personal">Back</button>
-                        <button class="btn btn-primary btn-next" type="button" data-next="complete">See My Payment Estimate</button>
+                        <button class="btn btn-primary btn-submit" type="button">See Payment Estimate</button>
+                    </div>
+                </section>
+
+                <!-- STEP 12: Payment Estimate -->
+                <section class="step" id="step-estimate" data-section="personal-info">
+                    <header class="step-header">
+                        <h1 class="step-title">
+                            Your Estimated <span class="accent-word">Offer</span>
+                        </h1>
+                    </header>
+
+                    <div class="estimate-card">
+                        <div class="estimate-summary">
+                            <div class="estimate-row">
+                                <span class="estimate-label">Requested Loan Amount:</span>
+                                <span class="estimate-value" id="estimate-loan-amount">$50,000.00</span>
+                            </div>
+                            <div class="estimate-row">
+                                <span class="estimate-label">Loan Purpose:</span>
+                                <span class="estimate-value" id="estimate-loan-purpose">—</span>
+                            </div>
+                            <div class="estimate-row">
+                                <span class="estimate-label">Estimated Monthly Payment:</span>
+                            </div>
+                        </div>
+
+                        <div class="estimate-payment">
+                            <div class="estimate-payment-amount" id="estimate-payment-amount">$1,304.56</div>
+                        </div>
+
+                        <div class="slider-block">
+                            <input type="range" id="term-slider" min="36" max="120" value="54" step="1" />
+                            <div class="slider-bottom-row">
+                                <span class="slider-range-label">36 Months</span>
+                                <span class="slider-range-label" id="term-display">54 Months</span>
+                                <span class="slider-range-label">120 Months</span>
+                            </div>
+                        </div>
+
+                        <p class="disclaimer-text" style="margin-top: 40px;">
+                            Please note that the payments and length of term above are estimates based on the information you provided and are subject to change.
+                        </p>
+                    </div>
+
+                    <div class="estimate-next-steps">
+                        <h2 class="estimate-subtitle">Next Steps</h2>
+                        <p class="estimate-text">
+                            Thank you for submitting your pre-qualification request. If you pre-qualify, you will receive an email within 24-48 hours with next steps.
+                        </p>
                     </div>
                 </section>
 
             </form>
 
-        </div><!-- /form-container -->
+        </div>
 
     </main>
 
-</div><!-- /layout -->
+</div>
 
 <script src="js/pre-qual.js"></script>
 </body>
