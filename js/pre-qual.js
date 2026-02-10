@@ -931,46 +931,31 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Failed to save form data to localStorage:", e);
       }
 
-      // Execute reCAPTCHA Enterprise and submit form
-        grecaptcha.enterprise.ready(async function() {
-          try {
-            const token = await grecaptcha.enterprise.execute(
-              '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
-              { action: 'submit' }
-            );
-
+      // Execute reCAPTCHA API and submit form
+        grecaptcha.ready(async () => {
+            try {
+              const token = await grecaptcha.execute(
+                '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
+                { action: 'submit' }
+              );
           
-            // Add token to form
-            document.getElementById('g-recaptcha-response').value = token;
-        
-            // Update timestamp in captcha_settings
-            const captchaInput = document.querySelector('input[name="captcha_settings"]');
-            const captchaSettings = JSON.parse(captchaInput.value);
-            captchaSettings.ts = String(Date.now());
-            captchaInput.value = JSON.stringify(captchaSettings);
-        
-            // Populate hidden Salesforce fields
-            populateSalesforceFields(formData);
-        
-            // IMPORTANT: submit normally (no iframe), and DO NOT clear retURL
-            const form = document.getElementById('prequal-form');
-            form.target = '_top';
-        
-            // Make sure retURL is correct (absolute)
-            const retURLInput = document.getElementById('salesforce-returl');
-            retURLInput.value = 'https://4fimd.com/complete/?submitted=true';
-        
-            form.submit();
-        
-          } catch (error) {
-            console.error('reCAPTCHA Enterprise error:', error);
-        
-            // Allow user to try again
-            formSubmitted = false;
-            alert('There was an issue submitting. Please try again.');
-          }
-        });
-
+              // Inject token for Salesforce
+              document.getElementById('g-recaptcha-response').value = token;
+          
+              // Update timestamp for Salesforce captcha_settings
+              const captchaInput = document.querySelector('input[name="captcha_settings"]');
+              const captchaSettings = JSON.parse(captchaInput.value);
+              captchaSettings.ts = Date.now().toString();
+              captchaInput.value = JSON.stringify(captchaSettings);
+          
+              // Submit form (iframe or direct, your choice)
+              document.getElementById('prequal-form').submit();
+          
+            } catch (err) {
+              console.error('reCAPTCHA failed', err);
+              alert('There was an issue with reCAPTCHA. Please try again.');
+            }
+          });
 
   /* ==========================
      Populate Estimate Screen
