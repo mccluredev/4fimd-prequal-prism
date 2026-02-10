@@ -952,10 +952,24 @@ document.addEventListener("DOMContentLoaded", () => {
               document.getElementById('prequal-form').submit();
           
             } catch (err) {
-              console.error('reCAPTCHA failed', err);
+              console.error('reCAPTCHA Enterprise error:', err);
+
+              // Remove loading screen on failure
+              const existingLoader = document.querySelector('.loading-screen');
+              if (existingLoader) existingLoader.remove();
+
+              // Re-enable sidebar
+              formSubmitted = false;
+              document.querySelectorAll(".section-pill").forEach(pill => {
+                pill.style.cursor = '';
+                pill.style.opacity = '';
+              });
+
               alert('There was an issue with reCAPTCHA. Please try again.');
             }
           });
+    }); // close submitBtn click handler
+  } // close if (submitBtn)
 
   /* ==========================
      Populate Estimate Screen
