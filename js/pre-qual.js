@@ -932,59 +932,44 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Execute reCAPTCHA Enterprise and submit form
-      grecaptcha.enterprise.ready(async function() {
-        try {
-          const token = await grecaptcha.enterprise.execute('6LdH30AsAAAAACFtYvyqfxw6BCw_ro_1K7oAFWsm', {action: 'submit'});
-
-          // Add token to form
-          document.getElementById('g-recaptcha-response').value = token;
-          console.log('reCAPTCHA Enterprise token generated:', token);
-
-          // Update timestamp in captcha_settings
-          const captchaSettings = JSON.parse(document.querySelector('input[name="captcha_settings"]').value);
-          captchaSettings.ts = JSON.stringify(new Date().getTime());
-          document.querySelector('input[name="captcha_settings"]').value = JSON.stringify(captchaSettings);
-
-          // Populate hidden Salesforce fields
-          populateSalesforceFields(formData);
-
-          console.log('Submitting to Salesforce...');
-
-          // Create hidden iframe for Salesforce submission
-          let iframe = document.querySelector('iframe[name="salesforce-submit"]');
-          if (!iframe) {
-            iframe = document.createElement('iframe');
-            iframe.name = 'salesforce-submit';
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
+        grecaptcha.enterprise.ready(async function() {
+          try {
+            const token = await grecaptcha.enterprise.execute(
+              '6LdH30AsAAAAACFtYvyqfxw6BCw_ro_1K7oAFWsm',
+              { action: 'submit' }
+            );
+        
+            // Add token to form
+            document.getElementById('g-recaptcha-response').value = token;
+        
+            // Update timestamp in captcha_settings
+            const captchaInput = document.querySelector('input[name="captcha_settings"]');
+            const captchaSettings = JSON.parse(captchaInput.value);
+            captchaSettings.ts = String(Date.now());
+            captchaInput.value = JSON.stringify(captchaSettings);
+        
+            // Populate hidden Salesforce fields
+            populateSalesforceFields(formData);
+        
+            // IMPORTANT: submit normally (no iframe), and DO NOT clear retURL
+            const form = document.getElementById('prequal-form');
+            form.target = '_top';
+        
+            // Make sure retURL is correct (absolute)
+            const retURLInput = document.getElementById('salesforce-returl');
+            retURLInput.value = 'https://4fimd.com/complete/?submitted=true';
+        
+            form.submit();
+        
+          } catch (error) {
+            console.error('reCAPTCHA Enterprise error:', error);
+        
+            // Allow user to try again
+            formSubmitted = false;
+            alert('There was an issue submitting. Please try again.');
           }
+        });
 
-          // Submit form to iframe (Salesforce will process it)
-          const form = document.getElementById('prequal-form');
-          form.target = 'salesforce-submit';
-
-          // Remove the retURL temporarily so Salesforce doesn't redirect the iframe
-          const retURLInput = document.getElementById('salesforce-returl');
-          const originalRetURL = retURLInput.value;
-          retURLInput.value = '';
-
-          form.submit();
-
-          console.log('Form submitted to Salesforce iframe');
-
-          // Wait for Salesforce to process (3 seconds), then redirect manually
-          setTimeout(() => {
-            console.log('Redirecting to complete page...');
-            window.location.href = 'complete/?submitted=true';
-          }, 3000);
-
-        } catch (error) {
-          console.error('reCAPTCHA Enterprise error:', error);
-          alert('There was an issue with reCAPTCHA. Please try again.');
-        }
-      });
-    });
-  }
 
   /* ==========================
      Populate Estimate Screen
