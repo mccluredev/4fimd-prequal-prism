@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/pages.css" />
   <script src="https://www.google.com/recaptcha/api.js?render=6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5"></script>
+  <script>
+    function timestamp() { var response = document.getElementById("g-recaptcha-response"); if (response == null || response.value.trim() == "") {var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);elems["ts"] = JSON.stringify(new Date().getTime());document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); } } setInterval(timestamp, 500);
+  </script>
 </head>
 
 <body>
@@ -48,6 +51,7 @@
 
               <!-- Salesforce Web-to-Lead Hidden Fields (PRODUCTION) -->
               <input type="hidden" name="captcha_settings" value='{"keyname":"PrequalProduction","fallback":"true","orgId":"00DHs000003XeKL","ts":""}'>
+              <input type="hidden" name="oid" value="00DHs000003XeKL">
 
               <!-- retURL is ignored in your JS flow (you clear it before submit), but set it to prod anyway -->
               <input type="hidden" name="retURL" id="salesforce-returl" value="https://prequal.4fimd.com/complete/?submitted=true">
