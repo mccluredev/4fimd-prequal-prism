@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/components.css" />
   <link rel="stylesheet" href="css/pages.css" />
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5"></script>
 </head>
 
 <body>
@@ -48,8 +48,8 @@
 
               <!-- Salesforce Web-to-Lead Hidden Fields (PRODUCTION) -->
               <input type="hidden" name="captcha_settings" value='{"keyname":"PrequalProduction","fallback":"true","orgId":"00DHs000003XeKL","ts":""}'>
-              <input type="hidden" name="oid" value="00DHs000003XeKL">
-              
+              <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
               <!-- retURL is ignored in your JS flow (you clear it before submit), but set it to prod anyway -->
               <input type="hidden" name="retURL" id="salesforce-returl" value="https://4fimd.com/complete/?submitted=true">
               
