@@ -934,11 +934,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Execute reCAPTCHA API and submit form
         grecaptcha.ready(async () => {
             try {
-              const token = await grecaptcha.execute(
+              const token = await grecaptcha.enterprise.execute(
                 '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
                 { action: 'submit' }
               );
-          
+            
               // Inject token for Salesforce
               document.getElementById('g-recaptcha-response').value = token;
           
