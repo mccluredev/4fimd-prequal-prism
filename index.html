@@ -49,58 +49,54 @@
 
             <form id="prequal-form" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00DHs000003XeKL" method="POST" target="_top" novalidate>
 
-              <!-- Salesforce Web-to-Lead Hidden Fields (PRODUCTION) -->
-              <input type="hidden" name="captcha_settings" value='{"keyname":"PrequalProduction","fallback":"true","orgId":"00DHs000003XeKL","ts":""}'>
-              <input type="hidden" name="oid" value="00DHs000003XeKL">
+                <!-- Salesforce Web-to-Lead Hidden Fields (PRODUCTION) -->
+                <input type="hidden" name="captcha_settings" value='{"keyname":"PrequalProduction","fallback":"true","orgId":"00DHs000003XeKL","ts":""}'>
+                <input type="hidden" name="oid" value="00DHs000003XeKL">
+                <input type="hidden" name="retURL" id="salesforce-returl" value="https://prequal.4fimd.com/complete/?submitted=true">
+                <input type="hidden" name="lead_source" value="Website">
+                <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 
-              <!-- retURL is ignored in your JS flow (you clear it before submit), but set it to prod anyway -->
-              <input type="hidden" name="retURL" id="salesforce-returl" value="https://prequal.4fimd.com/complete/?submitted=true">
-              
-              <input type="hidden" name="lead_source" value="Website">
-              <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
-              
-              <!-- Hidden Salesforce mapped fields (populated by JavaScript before submission) -->
-              <input type="hidden" name="first_name" id="sf-first-name">
-              <input type="hidden" name="last_name" id="sf-last-name">
-              <input type="hidden" name="email" id="sf-email">
-              <input type="hidden" name="mobile" id="sf-mobile">
-              
-              <!-- Core financial fields (IDs appear consistent in your prod snippet) -->
-              <input type="hidden" name="00NHs00000lzslH" id="sf-loan-amount">
-              <input type="hidden" name="00NHs00000scaqg" id="sf-loan-purpose"> <!-- keep ONLY if this matches prod; see note below -->
-              <input type="hidden" name="00NHs00000m08cg" id="sf-credit-score">
-              <input type="hidden" name="00NHs00000m08cl" id="sf-income">
-              <input type="hidden" name="00NHs00000m08cq" id="sf-debt">
-              <input type="hidden" name="00NHs00000m08cv" id="sf-business-years">
-              <input type="hidden" name="00NHs00000sduCM" id="sf-business-zip">
-              
-              <!-- Employer/Owner fields (UPDATED to PROD 00NQP...) -->
-              <input type="hidden" name="00NQP00000825tT" id="sf-employment-structure">
-              <input type="hidden" name="00NQP00000825tf" id="sf-payment-type">
-              <input type="hidden" name="00NQP00000825te" id="sf-payment-duration">
-              <input type="hidden" name="00NQP00000825tR" id="sf-employer-name">
-              <input type="hidden" name="00NQP00000825tS" id="sf-employer-type">
-              
-              <input type="hidden" name="00NQP00000825ta" id="sf-physicians-count">
-              <input type="hidden" name="00NQP00000825tb" id="sf-providers-count">
-              <input type="hidden" name="00NQP00000825tU" id="sf-affiliations"> <!-- NOTE: this is "Hospital Affiliation" in prod snippet -->
-              
-              <input type="hidden" name="00NQP00000826cc" id="sf-patient-volume">
-              <input type="hidden" name="00NQP00000825tZ" id="sf-payers-count">
-              
-              <input type="hidden" name="00NQP00000825tg" id="sf-private-insurance">
-              <input type="hidden" name="00NQP00000825tX" id="sf-medicare">
-              <input type="hidden" name="00NQP00000825tW" id="sf-medicaid">
-              <input type="hidden" name="00NQP00000825tc" id="sf-other-payer">
-              
-              <input type="hidden" name="00NQP00000825tV" id="sf-insurance-types">
-              <input type="hidden" name="00NQP00000825tY" id="sf-npi">
-              <input type="hidden" name="00NQP00000826cb" id="sf-specialty">
-              <input type="hidden" name="00NQP00000825td" id="sf-other-specialty">
+                <!-- Hidden Salesforce mapped fields (populated by JavaScript before submission) -->
+                <input type="hidden" name="first_name" id="sf-first-name">
+                <input type="hidden" name="last_name" id="sf-last-name">
+                <input type="hidden" name="email" id="sf-email">
+                <input type="hidden" name="mobile" id="sf-mobile">
 
+                <!-- Core financial fields -->
+                <input type="hidden" name="00NHs00000lzslH" id="sf-loan-amount">
+                <input type="hidden" name="00NHs00000scaqg" id="sf-loan-purpose">
+                <input type="hidden" name="00NHs00000m08cg" id="sf-credit-score">
+                <input type="hidden" name="00NHs00000m08cl" id="sf-income">
+                <input type="hidden" name="00NHs00000m08cq" id="sf-debt">
+                <input type="hidden" name="00NHs00000m08cv" id="sf-business-years">
+                <input type="hidden" name="00NHs00000sduCM" id="sf-business-zip">
 
-              <input type="hidden" name="debug" value="0">
-              <input type="hidden" name="debugEmail" value="lewis.m@4fimd.com">
+                <!-- Employer/Owner fields (PROD 00NQP) -->
+                <input type="hidden" name="00NQP00000825tT" id="sf-employment-structure">
+                <input type="hidden" name="00NQP00000825tf" id="sf-payment-type">
+                <input type="hidden" name="00NQP00000825te" id="sf-payment-duration">
+                <input type="hidden" name="00NQP00000825tR" id="sf-employer-name">
+                <input type="hidden" name="00NQP00000825tS" id="sf-employer-type">
+
+                <input type="hidden" name="00NQP00000825ta" id="sf-physicians-count">
+                <input type="hidden" name="00NQP00000825tb" id="sf-providers-count">
+                <input type="hidden" name="00NQP00000825tU" id="sf-affiliations">
+
+                <input type="hidden" name="00NQP00000826cc" id="sf-patient-volume">
+                <input type="hidden" name="00NQP00000825tZ" id="sf-payers-count">
+
+                <input type="hidden" name="00NQP00000825tg" id="sf-private-insurance">
+                <input type="hidden" name="00NQP00000825tX" id="sf-medicare">
+                <input type="hidden" name="00NQP00000825tW" id="sf-medicaid">
+                <input type="hidden" name="00NQP00000825tc" id="sf-other-payer">
+
+                <input type="hidden" name="00NQP00000825tV" id="sf-insurance-types">
+                <input type="hidden" name="00NQP00000825tY" id="sf-npi">
+                <input type="hidden" name="00NQP00000826cb" id="sf-specialty">
+                <input type="hidden" name="00NQP00000825td" id="sf-other-specialty">
+
+                <input type="hidden" name="debug" value="0">
+                <input type="hidden" name="debugEmail" value="lewis.m@4fimd.com">
 
                 <!-- SECTION 1 — LOAN INFORMATION -->
 
@@ -248,7 +244,7 @@
                     <header class="step-header">
                         <h1 class="step-title">Thanks! You're almost done.</h1>
                         <p class="step-subtitle">
-                            While banks only care about your credit, our next section will <span class="accent-word">focus on you</span> and your practice - 
+                            While banks only care about your credit, our next section will <span class="accent-word">focus on you</span> and your practice -
                             Because we know that <span class="accent-word">you are more</span> than just a number.
                         </p>
                     </header>
@@ -384,7 +380,7 @@
                     <div class="two-col">
                         <div class="input-block">
                             <label for="business-years-input" class="input-label">How long has it been in business? (in years)</label>
-                            <input id="business-years-input" type="text" placeholder="7" />
+                            <input id="business-years-input" type="text" inputmode="numeric" placeholder="7" />
                         </div>
                         <div class="input-block">
                             <label for="business-zip-input" class="input-label">What is your business zip code?</label>
@@ -395,11 +391,11 @@
                     <div class="two-col">
                         <div class="input-block">
                             <label for="physicians-count-input" class="input-label">How many physicians are in the practice?</label>
-                            <input id="physicians-count-input" type="number" min="0" placeholder="0" />
+                            <input id="physicians-count-input" type="number" inputmode="numeric" min="0" placeholder="0" />
                         </div>
                         <div class="input-block">
                             <label for="providers-count-input" class="input-label">How many providers are in the practice?</label>
-                            <input id="providers-count-input" type="number" min="0" placeholder="0" />
+                            <input id="providers-count-input" type="number" inputmode="numeric" min="0" placeholder="0" />
                         </div>
                     </div>
 
@@ -441,7 +437,7 @@
                     </header>
 
                     <div class="input-block">
-                        <input id="patient-volume-input" type="number" min="0" placeholder="0" style="text-align: center; font-size: 24px;" />
+                        <input id="patient-volume-input" type="number" inputmode="numeric" min="0" placeholder="0" style="text-align: center; font-size: 24px;" />
                     </div>
 
                     <div class="step-actions">
@@ -457,33 +453,33 @@
                         </h1>
                     </header>
 
-                    <div style="max-width: 760px; margin: 0 auto;">
-                        <div style="margin-bottom: 32px;">
-                            <label for="payers-count-input" class="input-label" style="text-align: left; display: block; margin-bottom: 8px;">How many payers is your practice working with?</label>
-                            <input id="payers-count-input" type="number" min="0" placeholder="0" style="text-align: left; width: 552px;" />
+                    <div class="payer-mix-container">
+                        <div class="input-block">
+                            <label for="payers-count-input" class="input-label">How many payers is your practice working with?</label>
+                            <input id="payers-count-input" type="number" inputmode="numeric" min="0" placeholder="0" />
                         </div>
 
-                        <div>
-                            <label class="form-label" style="text-align: left; display: block; margin-bottom: 16px;">Please estimate the percentage makeup of your payer mix</label>
-                            <div style="display: flex; gap: 24px; margin-bottom: 16px;">
-                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
-                                    <label for="payer-private-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Private (%)</label>
-                                    <input id="payer-private-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                        <div class="form-group">
+                            <label class="form-label">Please estimate the percentage makeup of your payer mix</label>
+                            <div class="payer-grid">
+                                <div class="payer-field">
+                                    <label for="payer-private-input" class="input-label">Private (%)</label>
+                                    <input id="payer-private-input" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="0" class="payer-percentage" />
                                 </div>
-                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
-                                    <label for="payer-medicare-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Medicare (%)</label>
-                                    <input id="payer-medicare-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                <div class="payer-field">
+                                    <label for="payer-medicare-input" class="input-label">Medicare (%)</label>
+                                    <input id="payer-medicare-input" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="0" class="payer-percentage" />
                                 </div>
-                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
-                                    <label for="payer-medicaid-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Medicaid (%)</label>
-                                    <input id="payer-medicaid-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                <div class="payer-field">
+                                    <label for="payer-medicaid-input" class="input-label">Medicaid (%)</label>
+                                    <input id="payer-medicaid-input" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="0" class="payer-percentage" />
                                 </div>
-                                <div style="display: flex; flex-direction: column; flex: 0 0 auto;">
-                                    <label for="payer-other-input" class="input-label" style="display: block; margin-bottom: 8px; text-align: left;">Other (%)</label>
-                                    <input id="payer-other-input" type="number" min="0" max="100" step="1" placeholder="0" class="payer-percentage" style="text-align: left; width: 120px;" />
+                                <div class="payer-field">
+                                    <label for="payer-other-input" class="input-label">Other (%)</label>
+                                    <input id="payer-other-input" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="0" class="payer-percentage" />
                                 </div>
                             </div>
-                            <div id="payer-total-display" style="text-align: left; font-size: 16px; font-family: var(--font-family-main); color: var(--color-font-primary);"></div>
+                            <div id="payer-total-display" class="payer-total"></div>
                         </div>
                     </div>
 
@@ -596,7 +592,7 @@
                     </div>
 
                     <p class="disclaimer-text">
-                        4FiMD respects data privacy and will never sell your personal information. 
+                        4FiMD respects data privacy and will never sell your personal information.
                         We also do not conduct a credit pull to estimate your monthly payment.
                     </p>
 

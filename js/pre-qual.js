@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const allSteps = Array.from(document.querySelectorAll(".step"));
   let currentBranch = null; // 'employed' or 'owner'
-  
+
   // Hide branch-specific steps initially (add hidden class)
   document.querySelectorAll('.branch-employed, .branch-owner').forEach(step => {
     step.classList.add('branch-hidden');
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function buildSectionMeta() {
     const sectionMeta = {};
     const visibleSteps = getVisibleSteps();
-    
+
     visibleSteps.forEach((step, index) => {
       const sec = step.dataset.section;
       if (!sectionMeta[sec]) {
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sectionMeta[sec].max = index;
       }
     });
-    
+
     return sectionMeta;
   }
 
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!target) return;
 
     const visibleSteps = getVisibleSteps();
-    
+
     allSteps.forEach((step) => step.classList.remove("active"));
     target.classList.add("active");
 
@@ -313,7 +313,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (next === "complete") {
-        // Placeholder: later hook into Salesforce + estimate
         window.location.href = "complete/index.html";
         return;
       }
@@ -411,11 +410,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const visibleSteps = getVisibleSteps();
     const activeStep = visibleSteps[currentIndex];
 
-    // Define the longest path (Owner flow) as the denominator for consistent progress
-    // Pre-branch questions: loan-amount, loan-purpose, credit-score, income, debt (5 questions)
-    // Owner branch adds: employment-structure, practice-basics, affiliations, patient-volume, payer-mix (5 questions)
-    // Common questions: insurance, personal, contact (3 questions)
-    // Total: 13 questions (excluding transition page)
     const totalQuestions = 13;
 
     // Map each step to its progress count (questions answered when reaching this step)
@@ -425,8 +419,8 @@ document.addEventListener("DOMContentLoaded", () => {
       'step-credit-score': 2,
       'step-income': 3,
       'step-debt': 4,
-      'step-transition': 5, // Jumps to 5 on transition (38%)
-      'step-employment-structure': 5, // Stays at 5 (38%)
+      'step-transition': 5,
+      'step-employment-structure': 5,
       // Employed branch
       'step-compensation-employed': 6,
       'step-employer-employed': 7,
@@ -582,7 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const text = val >= 100000 ? "$100K+" : formatCurrency(val);
       incomeDisplay.textContent = text;
       setSummary("summary-income", text);
-      
+
       // Update CSS custom property for gradient fill
       const percent = (val / 100000) * 100;
       incomeSlider.style.setProperty('--value', percent + '%');
@@ -600,7 +594,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const text = val >= 50000 ? "$50K+" : formatCurrency(val);
       debtDisplay.textContent = text;
       setSummary("summary-debt", text);
-      
+
       // Update CSS custom property for gradient fill
       const percent = (val / 50000) * 100;
       debtSlider.style.setProperty('--value', percent + '%');
@@ -630,7 +624,7 @@ document.addEventListener("DOMContentLoaded", () => {
     phoneInput.addEventListener("input", (e) => {
       let value = e.target.value.replace(/\D/g, "");
       if (value.length > 10) value = value.slice(0, 10);
-      
+
       if (value.length >= 6) {
         e.target.value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6)}`;
       } else if (value.length >= 3) {
@@ -865,8 +859,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const formData = collectFormData();
 
-      // Basic validation (this is now handled by the Continue button validation)
-      // But we can keep it as a failsafe
+      // Basic validation failsafe
       const emailInput = document.getElementById('email-input');
       const phoneInput = document.getElementById('phone-input');
       const consentInput = document.getElementById('consent-input');
@@ -934,45 +927,69 @@ document.addEventListener("DOMContentLoaded", () => {
       // Populate hidden Salesforce fields before submission
       populateSalesforceFields(formData);
 
-      // Execute reCAPTCHA v3 API and submit form
-        grecaptcha.ready(async () => {
-            try {
-              const token = await grecaptcha.execute(
-                '6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5',
-                { action: 'submit' }
-              );
-            
-              // Inject token for Salesforce
-              document.getElementById('g-recaptcha-response').value = token;
-          
-              // Update timestamp for Salesforce captcha_settings
-              const captchaInput = document.querySelector('input[name="captcha_settings"]');
-              const captchaSettings = JSON.parse(captchaInput.value);
-              captchaSettings.ts = Date.now().toString();
-              captchaInput.value = JSON.stringify(captchaSettings);
-          
-              // Submit form (iframe or direct, your choice)
-              document.getElementById('prequal-form').submit();
-          
-            } catch (err) {
-              console.error('reCAPTCHA error:', err);
+      // Execute reCAPTCHA v3 and submit form (PRODUCTION - non-enterprise)
+      grecaptcha.ready(async function() {
+        try {
+          const token = await grecaptcha.execute('6LfSLWcsAAAAABlXepTgv4p_BjRhuaZ4x_5nHaN5', {action: 'submit'});
 
-              // Remove loading screen on failure
-              const existingLoader = document.querySelector('.loading-screen');
-              if (existingLoader) existingLoader.remove();
+          // Add token to form
+          document.getElementById('g-recaptcha-response').value = token;
+          console.log('reCAPTCHA token generated:', token);
 
-              // Re-enable sidebar
-              formSubmitted = false;
-              document.querySelectorAll(".section-pill").forEach(pill => {
-                pill.style.cursor = '';
-                pill.style.opacity = '';
-              });
+          // Update timestamp in captcha_settings
+          const captchaSettings = JSON.parse(document.querySelector('input[name="captcha_settings"]').value);
+          captchaSettings.ts = JSON.stringify(new Date().getTime());
+          document.querySelector('input[name="captcha_settings"]').value = JSON.stringify(captchaSettings);
 
-              alert('There was an issue with reCAPTCHA. Please try again.');
-            }
+          console.log('Submitting to Salesforce...');
+
+          // Create hidden iframe for Salesforce submission
+          let iframe = document.querySelector('iframe[name="salesforce-submit"]');
+          if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.name = 'salesforce-submit';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+          }
+
+          // Submit form to iframe (Salesforce will process it)
+          const form = document.getElementById('prequal-form');
+          form.target = 'salesforce-submit';
+
+          // Remove the retURL temporarily so Salesforce doesn't redirect the iframe
+          const retURLInput = document.getElementById('salesforce-returl');
+          const originalRetURL = retURLInput.value;
+          retURLInput.value = '';
+
+          form.submit();
+
+          console.log('Form submitted to Salesforce iframe');
+
+          // Wait for Salesforce to process (3 seconds), then redirect manually
+          setTimeout(() => {
+            console.log('Redirecting to complete page...');
+            window.location.href = 'complete/?submitted=true';
+          }, 3000);
+
+        } catch (error) {
+          console.error('reCAPTCHA error:', error);
+
+          // Remove loading screen on failure
+          const existingLoader = document.querySelector('.loading-screen');
+          if (existingLoader) existingLoader.remove();
+
+          // Re-enable sidebar
+          formSubmitted = false;
+          document.querySelectorAll(".section-pill").forEach(pill => {
+            pill.style.cursor = '';
+            pill.style.opacity = '';
           });
-    }); // close submitBtn click handler
-  } // close if (submitBtn)
+
+          alert('There was an issue with reCAPTCHA. Please try again.');
+        }
+      });
+    });
+  }
 
   /* ==========================
      Populate Estimate Screen
